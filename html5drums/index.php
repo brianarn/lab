@@ -32,12 +32,10 @@ function scanForSounds($path) {
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<title>HTML5 Drum Kit | Brian's Lab</title>
-		<!-- CSS -->
 		<link type="text/css" rel="stylesheet" href="../styles/reset.css" />
 		<link type="text/css" rel="stylesheet" href="../styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
 		<link type="text/css" rel="stylesheet" href="html5drums.css" />
-		<!-- Scripts -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery-ui.min.js"></script>
 		<!--[if lte IE 8]>
@@ -49,92 +47,31 @@ function scanForSounds($path) {
 			<h1>HTML5 Drum Kit</h1>
 		</header>
 		<section id="content">
-			<ul id="controls">
-				<li>
-					<ul id="tracker" class="soundrow">
-						<li class="header">Tracker</li><li class="pip col_0"></li><li class="pip col_1"></li><li class="pip col_2"></li><li class="pip col_3"></li><li class="pip col_4"></li><li class="pip col_5"></li><li class="pip col_6"></li><li class="pip col_7"></li><li class="pip col_8"></li><li class="pip col_9"></li><li class="pip col_10"></li><li class="pip col_11"></li><li class="pip col_12"></li><li class="pip col_13"></li><li class="pip col_14"></li><li class="pip col_15"></li>
-					</ul>
-				</li>
-			</ul>
-			<button id="soundstart">Start it up!</button>
-		</section>
+			<section id="drumkit">
+				<ul id="lights">
+					<li>
+						<ul id="tracker" class="soundrow">
+							<li class="header">Tracker</li><li class="pip col_0">tracker_0</li><li class="pip col_1">tracker_1</li><li class="pip col_2">tracker_2</li><li class="pip col_3">tracker_3</li><li class="pip col_4">tracker_4</li><li class="pip col_5">tracker_5</li><li class="pip col_6">tracker_6</li><li class="pip col_7">tracker_7</li><li class="pip col_8">tracker_8</li><li class="pip col_9">tracker_9</li><li class="pip col_10">tracker_0</li><li class="pip col_11">tracker_1</li><li class="pip col_12">tracker_2</li><li class="pip col_13">tracker_3</li><li class="pip col_14">tracker_4</li><li class="pip col_15">tracker_5</li>
+						</ul>
+					</li>
+				</ul> <!-- #lights -->
+				<ul id="controls">
+					<li><button id="soundstart">Start!</button></li>
+					<li><button id="clearall">Clear!</button></li>
+					<li><button id="reload">Reload from URL!</button></li>
+					<li>
+						<label for="temposlider">Tempo: <span id="tempovalue"></span> <abbr title="Beats per minute">BPM</abbr></label>
+						<div id="temposlider"></div>
+					</li>
+				</ul> <!-- #controls -->
+			</section><!-- #drumkit -->
+		</section> <!-- #content -->
 		<section id="sounds">
 			<?= scanForSounds('sounds'); ?>
 		</section>
 		<footer>
 			<p>HTML5 Drum Kit by Brian Arnold, MIT licensed so snag away</p>
 		</footer>
-		<script type="text/javascript">
-			// Run on DOM ready
-			$(document).ready(function(){
-				// Will use to store our setInterval
-				var isPlaying = false;
-
-				// Where are we?
-				var pipTracker = 0;
-
-				// Process each of the audio items, creating a playlist sort of setup
-				$("audio").each(function(i){
-					// Make a self reference for ease of use in click events
-					var self = this;
-
-					// Make a sub-list for our control
-					var $ul = $('<ul id="control_' + this.id + '" class="soundrow">');
-					$ul.append('<li class="header">' + this.id + '</li>');
-					// Add 16 list items!
-					for (j = 0; j < 16; j++) {
-						var $li =
-							$('<li class="pip col_'+j+'">')
-							.click(function(){
-								$(this).toggleClass('active');
-							})
-							.data('sound_id', self.id);
-						$ul.append($li);
-					} // for (i = 0; i < 16; i++)
-					// Append it up
-					$('<li>').append($ul).appendTo('#controls');
-				});
-
-				// Bind up a click for our button
-				$("#soundstart").click(function(){
-					if (isPlaying === false) {
-						// Start the playing!
-						pipTracker = 0;
-						isPlaying = setInterval(playBeat, 125) // Should be 120bpm
-						// Change our display
-						this.innerHTML = "Stop it!";
-					} else {
-						clearInterval(isPlaying);
-						$("#tracker li.pip").removeClass("active");
-						isPlaying = false;
-						this.innerHTML = "Start it up!";
-					}
-				});
-
-
-				// Function to iterate forward
-				function playBeat() {
-					// Turn off all lights on the tracker's row
-					$("#tracker li.pip").removeClass("active");
-					// Stop all sounds
-					$("audio").each(function(){
-						this.pause();
-						this.currentTime = 0.0;
-					});
-					// Light up the tracker on the current pip
-					$("#tracker li.pip.col_" + pipTracker).addClass("active");
-					// Find each active beat, play it
-					$(".soundrow[id^=control] li.pip.active.col_" + pipTracker).each(function(i){
-						document.getElementById($(this).data('sound_id')).play();
-					});
-					// Move the pip forward
-					pipTracker = (pipTracker + 1) % 16;
-				}
-			});
-
-			// Run on window loaded
-			$(window).bind('load',function(){
-			});
-		</script>
+		<script type="text/javascript" src="html5drums.js"></script>
 	</body>
 </html>

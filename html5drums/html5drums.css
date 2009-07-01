@@ -1,26 +1,83 @@
 /* CSS for HTML 5 Drum Kit */
 #sounds { display: none; }
 
-#controls > li {
+#drumkit {
+	padding: 10px;
+	border: 5px solid #666;
+	background-color: #333;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	width: 870px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+#drumkit > ul {
+	padding: 0px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+#lights {
+}
+
+#lights > li {
 	padding-bottom: 0px;
+}
+
+#lights ul {
+	padding: 0px;
+	margin-right: 10px;
+}
+
+#tracker {
+	margin-bottom: 10px;
+}
+
+#controls {
+	width: 140px;
+	color: #FFF;
+}
+
+#temposlider {
+	margin-top: 0.5em;
 }
 
 ul.soundrow li {
 	display: inline-block;
+	height: 15px;
 }
 
 ul.soundrow li.header {
 	width: 150px;
+	padding-bottom: 0.1em;
+	background-color: #CCC;
+	border: outset 3px #CCC;
+	margin-right: 20px;
 }
 
 ul.soundrow li.pip {
-	display: inline-block;
 	width: 20px;
-	border: outset 3px #999;
-	background-color: #333;
+	border: outset 3px #555;
+	background-color: #555;;
+	padding: 0px;
+	margin-right: 5px;
+	text-indent: -9999px;
 }
 
 ul.soundrow li.active {
 	border: inset 3px #990;
 	background-color: #CC0;
+}
+
+ul.soundrow li.col_3,
+ul.soundrow li.col_7,
+ul.soundrow li.col_11 {
+	margin-right: 15px;
+}
+
+#tracker li.active {
+	border: inset 3px #FFA000;
+	background-color: #FFA000;
 }
