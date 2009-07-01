@@ -1,0 +1,201 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Canvas Playtime - Images</title>
+		<style type="text/css">
+			body {
+				margin: 0px;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+				background-color: #CFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+				margin: 0px auto;
+				border: 1px solid black;
+				/*width: 800px;*/
+				width: 640px;
+			}
+
+			#wrapper h1 {
+				width: 100%;
+				border-bottom: 1px solid black;
+				text-align: center;
+				margin: 0px 0px 10px 0px;
+			}
+
+			#content {
+				position: relative;
+				margin-left: 20px;
+			}
+
+			#footer {
+				border-top: 1px solid black;
+				clear: both;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Learning the <code>&lt;canvas&gt;</code> and Prototype - Images</h1>
+			<div id="content">
+				<div id="base">
+					<p>Our base image:</p>
+					<img id="avatar_src" src="avatar.jpg" alt="Base Image" style="display: none;" />
+					<canvas id="avatar" width="100" height="100">No Canvas Support?</canvas>
+				</div> <!-- base -->
+				<div id="playtime">
+					<p>Playing around with colors:</p>
+					<canvas id="avatar_playtime" width="100" height="100">No Canvas support?</canvas>
+				</div> <!-- playtime -->
+				<div id="shrunk">
+					<p>Shrunk down 50%:</p>
+					<canvas id="avatar_shrunk" width="50" height="50">No Canvas Support?</canvas>
+				</div> <!-- shrunk -->
+				<div id="expanded">
+					<p>Expanded up 100% by pixel doubling:</p>
+					<canvas id="avatar_expanded" width="200" height="200">No Canvas Support?</canvas>
+					<p>Expanded up 100% by bilinear interp of a sort:</p>
+					<canvas id="avatar_bilinear" width="200" height="200">No Canvas Support?</canvas>
+				</div> <!-- expanded -->
+			</div> <!-- end #content -->
+			<div id="footer">
+				For the time being, all work &copy; 2008, Brian Arnold, All Rights Reserved
+			</div> <!-- end #footer -->
+		</div> <!-- end #wrapper -->
+		<!-- Scripts down here for faster loads -->
+		<!-- Prototype -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
+		<!-- Custom scripting -->
+		<script type="text/javascript">
+			// When the full page has finished loading, fire up
+			Event.observe(window, "load", function() {
+				// Get our contexts
+				var asrc = $("avatar_src");
+				var actx = $("avatar").getContext("2d")
+				var sctx = $("avatar_shrunk").getContext("2d");
+				var ectx = $("avatar_expanded").getContext("2d");
+				var bctx = $("avatar_bilinear").getContext("2d");
+				var pctx = $("avatar_playtime").getContext("2d");
+
+				// Draw it into the main area
+				actx.drawImage(asrc, 0, 0);
+				// Get some image data
+				var aimgd = actx.getImageData(0,0,100,100);
+				var simgd = sctx.getImageData(0,0,50,50);
+				var eimgd = ectx.getImageData(0,0,200,200);
+				var bimgd = bctx.getImageData(0,0,200,200);
+				var pimgd = pctx.getImageData(0,0,100,100);
+
+				// Build up the shrunken version ignoring the last row/col for safety
+				for (var i = 0; i < 100; i += 2) {
+					for (var j = 0; j < 100; j += 2) {
+						for (var c = 0; c < 3; c += 1) {
+							// Determine indices for our four pixels
+							// First index: our current row, multiplied by our width,
+							// by four as there are four pieces of data to each,
+							// plus our current column, also scaled by four
+							var old1 = i*100*4 + j*4 + c;
+							// Second index - just move four data points ahead to get the pixel to the right of this one
+							var old2 = old1 + 4;
+							// Third: Same as the first, but i should be increase by 1 initially
+							var old3 = (i+1)*100*4 + j*4 + c;
+							// Fourth: Similar to the second, basing off of third
+							var old4 = old3 + 4;
+							// Determine the index for the shrunken pixel
+							// It should build up like the first index, but using i and j in half
+							var new1 = (i/2)*50*4 + (j/2)*4 + c;
+
+							// Now that we know where we're working, let's set up some image data
+							var avg = (aimgd.data[old1] + aimgd.data[old2] + aimgd.data[old3] + aimgd.data[old4])/4;
+							simgd.data[new1] = avg;
+						} // for var c
+						// Set the alpha which I've been ignoring, causing me problems - I'm dumb, ugh
+						simgd.data[(i/2)*50*4 + (j/2)*4 + 3] = 255;
+					} // for var j
+				} // for var i
+
+				// Build up the expanded version - just blowing up pixels for now
+				for (var i = 0; i < 200; i += 1) {
+					for (var j = 0; j < 200; j += 1) {
+						for (var c = 0; c < 3; c += 1) {
+							// Much like the prior, build a current index, then build four new pixel indices
+							var orig_i = i;
+							var orig_j = j;
+							if (orig_i % 2) orig_i--;
+							if (orig_j % 2) orig_j--;
+							orig_i /= 2;
+							orig_j /= 2;
+							var a_ind = (orig_i * 100 + orig_j) * 4 + c;
+							var e_ind = (i * 200 + j) * 4 + c;
+							// Set some pixels!
+							eimgd.data[e_ind] = aimgd.data[a_ind];
+						} // for var c
+						// Set the alpha
+						eimgd.data[(i*200+j)*4+3] = 255;
+					} // for var j
+				} // for var i
+
+				// Build up the expanded one using Bilinear Interp - I think
+				for (var x = 0; x < 200; x += 2) {
+					for (var y = 0; y < 200; y += 2) {
+						for (var c = 0; c < 3; ++c) {
+							// Determine sourcing
+							var orig_x = x / 2;
+							var orig_y = y / 2;
+							// Get some color
+							var color = aimgd.data[(orig_x*100+orig_y)*4+c];
+							var color_right, color_down, color_diag;
+							// Draw said color straight into the new place at our base
+							bimgd.data[(x*200+y)*4+c] = color;
+							// Now, do some averaging for the pixel to the right of our base, if orig_x < 99, since we have no value at orig_x = 100
+							if (orig_x < 99) {
+								color_right = aimgd.data[((orig_x+1)*100+orig_y)*4+c];
+								bimgd.data[((x+1)*200+y)*4+c] = (color + color_right) / 2;
+							}
+							// Same for y+1
+							if (orig_y < 99) {
+								color_down = aimgd.data[(orig_x*100+orig_y+1)*4+c];
+								bimgd.data[(x*200+y+1)*4+c] = (color + color_down) / 2;
+							}
+							// Now, do the combo case
+							if (orig_x < 99 && orig_y < 99) {
+								color_diag = aimgd.data[((orig_x+1)*100+orig_y+1)*4+c];
+								bimgd.data[((x+1)*200+y+1)*4+c] = (color + color_right + color_down + color_diag) / 4;
+							}
+						}
+						// Set some alphas
+						bimgd.data[(x*200+y)*4+3] = 255;
+						if (y < 199) bimgd.data[(x*200+(y+1))*4+3] = 255;
+						if (x < 199) bimgd.data[((x+1)*200+y)*4+3] = 255;
+						if (x < 199 && y < 199) bimgd.data[((x+1)*200+(y+1))*4+3] = 255;
+					}
+				} // for x
+
+				// Playtime!
+				for (var i = 0; i < 100; ++i) {
+					for (var j = 0; j < 100; ++j) {
+						for (var c = 0; c < 3; ++c) {
+							var index = (i*100+j) * 4 + c;
+							//pimgd.data[index] = 255 - aimgd.data[index];
+							//pimgd.data[index] = aimgd.data[index] + (-255 * (100 - i));
+							pimgd.data[index] = Math.abs((255 * i/100) - aimgd.data[index]);
+							//pimgd.data[index] = Math.abs((255 * (100-i)/100) - aimgd.data[index]);
+							//pimgd.data[index] = Math.abs((255 * (i+j)/200) - aimgd.data[index]);
+							//pimgd.data[index] = i+j >= 100 ? 255 - aimgd.data[index] : aimgd.data[index];
+							//pimgd.data[index] = Math.pow(aimgd.data[index],1.1)%256;
+						} // for var c, three colors
+						// Set alpha up
+						pimgd.data[(i*100+j)*4+3] = 255;
+					} // for var j
+				} // for var i
+
+				// Write back in the new image data
+				sctx.putImageData(simgd,0,0);
+				ectx.putImageData(eimgd,0,0);
+				bctx.putImageData(bimgd,0,0);
+				pctx.putImageData(pimgd,0,0);
+			});
+		</script>
+	</body>
+</html>

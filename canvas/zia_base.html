@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Zia</title>
+	</head>
+	<body>
+		<canvas id="zia_canvas" width="300" height="300"></canvas>
+		<script type="text/javascript">
+			var ctx = document.getElementById("zia_canvas").getContext("2d");
+			ctx.beginPath();
+			ctx.lineCap = "round";
+			ctx.lineWidth = 10;
+			ctx.strokeStyle = "#FF0000";
+			ctx.fillStyle = ctx.strokeStyle;
+			// Verticals
+			ctx.moveTo(142,10);
+			ctx.lineTo(142,290);
+			ctx.moveTo(158,10);
+			ctx.lineTo(158,290);
+			ctx.moveTo(126,25);
+			ctx.lineTo(126,275);
+			ctx.moveTo(174,25);
+			ctx.lineTo(174,275);
+			// Horizontals
+			ctx.moveTo(10,142);
+			ctx.lineTo(290,142);
+			ctx.moveTo(10,158);
+			ctx.lineTo(290,158);
+			ctx.moveTo(25,126);
+			ctx.lineTo(275,126);
+			ctx.moveTo(25,174);
+			ctx.lineTo(275,174);
+			ctx.stroke();
+			// Circle - outer
+			ctx.beginPath();
+			ctx.arc(150,150,75,0,Math.PI*2,true);
+			ctx.fill();
+			// Circle - inner
+			ctx.beginPath();
+			ctx.fillStyle = "#FFFFFF";
+			ctx.arc(150,150,65,0,Math.PI*2,true);
+			ctx.fill();
+		</script>
+	</body>
+</html>

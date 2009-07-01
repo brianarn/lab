@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Canvas Playtime</title>
+		<style type="text/css">
+			body {
+				margin: 0px;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+				background-color: #CFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+				margin: 0px auto;
+				border: 1px solid black;
+				width: 540px;
+			}
+
+			#wrapper h1 {
+				width: 100%;
+				border-bottom: 1px solid black;
+				text-align: center;
+				margin: 0px 0px 10px 0px;
+			}
+
+			#content {
+				/*margin: 20px;*/
+			}
+
+			#life {
+				float: left;
+				/*width: 520px;*/
+				margin-bottom: 10px;
+			}
+
+			#life canvas {
+				margin-left: 20px;
+			}
+
+			#output {
+				float: right;
+				width: 250px;
+				padding-left: 10px;
+			}
+
+			#output ul {
+				padding-left: 15px;
+				padding-right: 15px;
+				margin-top: 10px;
+				margin-bottom: 0px;
+				height: 475px;
+				overflow: auto;
+			}
+
+			#output ul li {
+				list-style-type: square;
+			}
+
+			#output ul li ul {
+				margin-top: 0px;
+				height: auto;
+				padding-left: 20px;
+			}
+
+			#footer {
+				border-top: 1px solid black;
+				clear: both;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Learning the <code>&lt;canvas&gt;</code> and Prototype - playing with Conway's Game of Life</h1>
+			<div id="content">
+				<div id="life"></div>
+			</div> <!-- end #content -->
+			<div id="footer">
+				For the time being, all work &copy; 2008, Brian Arnold, All Rights Reserved
+			</div> <!-- end #footer -->
+		</div> <!-- end #wrapper -->
+		<!-- Scripts down here for faster loads -->
+		<!-- Prototype -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
+		<!-- Browser check -->
+		<script type="text/javascript">
+			// Kick out the filthy IE users such as my friend James ;)
+			if (Prototype.Browser.IE) {
+				alert("This page isn't supported in IE. Use a real browser plzkthx.");
+				location.href("http://www.disney.com");
+			}
+		</script>
+		<!-- Game of Life -->
+		<script type="text/javascript" src="life.js"></script>
+		<!-- Custom scripting -->
+		<script type="text/javascript">
+			// Initialize our arguments
+			var div_id = "life";
+			var grid_count = 50;
+			var grid_size = 10; // In Pixels
+			var living = 20; // 1-100% of activated cells
+			var tick_timer = 100; // How frequently to tick
+			// Create a game of life
+			var game = new Life(div_id, grid_count, grid_size, living, tick_timer);
+			// Start 'er tickin'
+			window.setTimeout("game.tick()", game.ticktime);
+		</script>
+	</body>
+</html>

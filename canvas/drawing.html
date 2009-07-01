@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Canvas Playtime - Drawing</title>
+		<style type="text/css">
+			body {
+				margin: 0px;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+				background-color: #CFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+				margin: 0px auto;
+				border: 1px solid black;
+				width: 700px;
+			}
+
+			#wrapper h1 {
+				width: 100%;
+				border-bottom: 1px solid black;
+				text-align: center;
+				margin: 0px 0px 10px 0px;
+			}
+
+			#content {
+				height: 550px;
+			}
+
+			#layers_container {
+				position: relative;
+			}
+
+			#tools_container {
+				float: right;
+				margin-right: 10px;
+			}
+
+			.layer {
+				position: absolute;
+				top: 10px;
+				left: 20px;
+				border: 1px solid black;
+			}
+
+			#footer {
+				border-top: 1px solid black;
+				clear: both;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Learning the <code>&lt;canvas&gt;</code> and Prototype - Drawing</h1>
+			<div id="content">
+				<div id="layers_container">
+					<canvas id="layer_1" class="layer" width="500" height="500">No Canvas support?</canvas>
+					<canvas id="layer_tmp" class="layer" width="500" height="500">No Canvas support?</canvas>
+				</div>
+				<div id="tools_container">
+					<form id="toolset" action="drawing.html">
+						<fieldset>
+							<legend>Tool</legend>
+							<label for="tool_line">Line</label> <input type="radio" name="tool" id="tool_line" value="line" checked="checked" />
+							<label for="tool_circle">Circle</label> <input type="radio" name="tool" id="tool_circle" value="circle" />
+						</fieldset>
+					</form>
+				</div>
+			</div> <!-- end #content -->
+			<div id="footer">
+				For the time being, all work &copy; 2008, Brian Arnold, All Rights Reserved
+			</div> <!-- end #footer -->
+		</div> <!-- end #wrapper -->
+		<!-- Scripts down here for faster loads -->
+		<!-- Prototype -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
+		<!-- Custom scripting -->
+		<script type="text/javascript">
+			var ismousedown = false;
+			var canvasOffset = $("layer_tmp").viewportOffset();
+			var ctx  = $("layer_tmp").getContext("2d");
+			var bctx = $("layer_1").getContext("2d");
+			var downX, downY;
+			// Let's watch some events on the canvas
+			// When the mouse goes down, we want to start recording where we went down
+			// -- but only if we're above the tmp canvas
+			$("layer_tmp").observe("mousedown", function(e) {
+				// Let's determine where we were clicked relative to the canvases
+				var xpos = e.pointerX() - canvasOffset.left;
+				var ypos = e.pointerY() - canvasOffset.top;
+				ismousedown = true;
+				downX = xpos;
+				downY = ypos;
+			});
+			$(document).observe("mouseup", function(e) {
+				if (ismousedown) {
+					// Let's determine where we were clicked
+					var xpos = e.pointerX() - canvasOffset.left;
+					var ypos = e.pointerY() - canvasOffset.top;
+					//var radius = sqrt(abs(xpos - downX)^2 + abs(ypos - downY)^2);
+					var radius = 
+						Math.sqrt(
+							Math.pow(Math.abs(xpos - downX), 2) +
+							Math.pow(Math.abs(ypos - downY), 2)
+						);
+					// Finding the tool in multiple lines for legibility
+					var tool = $("toolset").getInputs("radio","tool");
+					tool = tool.find(function (e){ return e.checked; }).value;
+					ismousedown = false;
+					// Write down
+					switch (tool) {
+						default:
+						bctx.save();
+						bctx.translate(downX, downY);
+						/*
+						var radgrad = bctx.createRadialGradient(-radius/5,-radius/5,0,-radius/5,-radius/5,radius/2);
+						radgrad.addColorStop(0,"rgba(255,255,255,1)");
+						radgrad.addColorStop(1,"#000");
+						*/
+						bctx.beginPath();
+						bctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+						//bctx.fillStyle = radgrad;
+						bctx.fillStyle = "rgba(0,0,0,1)";
+						bctx.fill();
+						bctx.restore();
+						// Clean up
+						ctx.clearRect(0,0,500,500);
+					}
+				}
+			});
+			$(document).observe("mousemove", function(e) {
+				// Let's determine where we were clicked
+				if (ismousedown) {
+					var xpos = e.pointerX() - canvasOffset.left;
+					var ypos = e.pointerY() - canvasOffset.top;
+					var radius = 
+						Math.sqrt(
+							Math.pow(Math.abs(xpos - downX), 2) +
+							Math.pow(Math.abs(ypos - downY), 2)
+						);
+					// Finding the tool in multiple lines for legibility
+					var tool = $("toolset").getInputs("radio","tool");
+					tool = tool.find(function (e){ return e.checked; }).value;
+
+					// Clean the canvas
+					ctx.clearRect(0,0,500,500);
+					ctx.beginPath();
+					switch(tool) {
+						case "circle":
+							ctx.arc(downX, downY, radius, 0, Math.PI*2, true);
+							break;
+						case "line":
+							ctx.moveTo(downX,downY);
+							ctx.lineTo(xpos,ypos);
+							break;
+						default:
+							console.log("Error: tool = " + tool);
+					}
+					ctx.stroke();
+				}
+			});
+		</script>
+	</body>
+</html>

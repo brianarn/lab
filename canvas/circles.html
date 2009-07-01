@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Canvas Playtime - Circles</title>
+		<style type="text/css">
+			body {
+				margin: 0px;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+				background-color: #CFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+				margin: 0px auto;
+				border: 1px solid black;
+				/*width: 800px;*/
+				width: 640px;
+			}
+
+			#wrapper h1 {
+				width: 100%;
+				border-bottom: 1px solid black;
+				text-align: center;
+				margin: 0px 0px 10px 0px;
+			}
+
+			#circles, #circles_bg {
+				position: absolute;
+				top: 20px;
+				left: 20px;
+				border: 1px solid black;
+			}
+
+			#content {
+				position: relative;
+				margin-left: 20px;
+				height: 550px;
+			}
+
+			#footer {
+				border-top: 1px solid black;
+				clear: both;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Learning the <code>&lt;canvas&gt;</code> and Prototype - drawing circles</h1>
+			<div id="content">
+				<div id="circles_container">
+					<div>Click and drag around in the box to draw circles:</div>
+					<canvas id="circles_bg" width="500" height="500">No Canvas support?</canvas>
+					<canvas id="circles" width="500" height="500">No Canvas support?</canvas>
+				</div>
+			</div> <!-- end #content -->
+			<div id="footer">
+				For the time being, all work &copy; 2008, Brian Arnold, All Rights Reserved
+			</div> <!-- end #footer -->
+		</div> <!-- end #wrapper -->
+		<!-- Scripts down here for faster loads -->
+		<!-- Prototype -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
+		<!-- Custom scripting -->
+		<script type="text/javascript">
+			var ismousedown = false;
+			var canvasOffset = $("circles").viewportOffset();
+			var ctx  = $("circles").getContext("2d");
+			var bctx = $("circles_bg").getContext("2d");
+			var downX, downY;
+			// Let's watch some events on the canvas
+			// When the mouse goes down, we want to start recording where we went down
+			$("circles").observe("mousedown", function(e) {
+				// Let's determine where we were clicked
+				var xpos = e.pointerX() - canvasOffset.left;
+				var ypos = e.pointerY() - canvasOffset.top;
+				ismousedown = true;
+				downX = xpos;
+				downY = ypos;
+			});
+			$("circles").observe("mouseup", function(e) {
+				// Let's determine where we were clicked
+				var xpos = e.pointerX() - canvasOffset.left;
+				var ypos = e.pointerY() - canvasOffset.top;
+				//var radius = sqrt(abs(xpos - downX)^2 + abs(ypos - downY)^2);
+				var radius = 
+					Math.sqrt(
+						Math.pow(Math.abs(xpos - downX), 2) +
+						Math.pow(Math.abs(ypos - downY), 2)
+					);
+				ismousedown = false;
+				// Write down
+				//bctx.drawImage($("circles"),0,0);
+				bctx.save();
+				bctx.translate(downX, downY);
+				var radgrad = bctx.createRadialGradient(-radius/5,-radius/5,0,-radius/5,-radius/5,radius/2);
+				radgrad.addColorStop(0,"rgba(255,255,255,1)");
+				radgrad.addColorStop(1,"#000");
+				bctx.beginPath();
+				bctx.arc(0, 0, radius, 0, Math.PI * 2, true);
+				bctx.fillStyle = radgrad;
+				bctx.fill();
+				bctx.restore();
+				// Clean up
+				ctx.clearRect(0,0,500,500);
+			});
+			$("circles").observe("mousemove", function(e) {
+				// Let's determine where we were clicked
+				var xpos = e.pointerX() - canvasOffset.left;
+				var ypos = e.pointerY() - canvasOffset.top;
+				var radius = 
+					Math.sqrt(
+						Math.pow(Math.abs(xpos - downX), 2) +
+						Math.pow(Math.abs(ypos - downY), 2)
+					);
+				if (ismousedown) {
+					// Clean the canvas
+					ctx.clearRect(0,0,500,500);
+					ctx.beginPath();
+					ctx.arc(downX, downY, radius, 0, Math.PI*2, true);
+					ctx.moveTo(downX,downY);
+					ctx.lineTo(xpos,ypos);
+					ctx.stroke();
+				};
+			});
+		</script>
+	</body>
+</html>

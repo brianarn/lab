@@ -1,0 +1,55 @@
+/* CSS for Tenori Testing */
+
+/* Major page elements */
+body {
+	font-family: Georgia, Verdana, Arial, sans-serif;
+	background-color: #0481B5;
+}
+
+header, footer, section {
+	display: block;
+	width: 900px;
+	margin: 0px auto;
+	background-color: #FFF;
+	padding: 1em;
+	border-bottom: inset 5px blue;
+}
+
+header h1 {
+	font-size: 3em;
+}
+
+ul {
+	padding-left: 1em;
+}
+
+li {
+	padding-bottom: 0.5em;
+}
+
+/* Class/ID stuff */
+#sounds { display: none; }
+
+#controls > li {
+	padding-bottom: 0px;
+}
+
+ul.soundrow li {
+	display: inline-block;
+}
+
+ul.soundrow li.header {
+	width: 150px;
+}
+
+ul.soundrow li.pip {
+	display: inline-block;
+	width: 20px;
+	border: outset 3px #999;
+	background-color: #333;
+}
+
+ul.soundrow li.active {
+	border: inset 3px #990;
+	background-color: #CC0;
+}

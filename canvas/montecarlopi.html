@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Canvas Playtime - Monte Carlo Pi</title>
+		<style type="text/css">
+			body {
+				margin: 0px;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+				background-color: #CFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+				margin: 0px auto;
+				border: 1px solid black;
+				/*width: 800px;*/
+				width: 640px;
+			}
+
+			#wrapper h1 {
+				width: 100%;
+				border-bottom: 1px solid black;
+				text-align: center;
+				margin: 0px 0px 10px 0px;
+			}
+
+			#content {
+				margin-left: 20px;
+			}
+
+			#mcp_graph {
+				border: 1px solid black;
+			}
+
+			#mcp_square {
+				border: 1px solid black;
+			}
+
+			#footer {
+				border-top: 1px solid black;
+				clear: both;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Learning the <code>&lt;canvas&gt;</code> and Prototype - Monte Carlo Pi</h1>
+			<div id="content">
+				<form id="mcp_form" action="GET">
+					<fieldset>
+						<label for="mcp_dartcount">Dart Count:</label>
+						<input type="text" id="mcp_dartcount" value="5" />
+						<input type="button" id="mcp_start" value="Start" />
+					</fieldset>
+				</form>
+				<div>Graph:</div>
+				<canvas id="mcp_graph" width="500" height="100">No Canvas support?</canvas>
+				<div>
+					Stats:
+					Darts: <span id="mcp_increment">0</span>
+					In the circle: <span id="mcp_inthecircle">0</span>
+					PI estimate: <span id="mcp_piest">NaN</span>
+				</div>
+				<div>Dartboard:</div>
+				<canvas id="mcp_square" width="500" height="500">No Canvas support?</canvas>
+			</div> <!-- end #content -->
+			<div id="footer">
+				For the time being, all work &copy; 2008, Brian Arnold, All Rights Reserved
+			</div> <!-- end #footer -->
+		</div> <!-- end #wrapper -->
+		<!-- Scripts down here for faster loads -->
+		<!-- Prototype -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
+		<!-- Custom scripting -->
+		<script type="text/javascript">
+			var dartcount = 0;
+			var increment = 0;
+			var inthecircle = 0;
+			var pastPIest = 0;
+			function throwDart() {
+				// Draw the dart
+				var dartX = Math.floor(Math.random() * 500);
+				var dartY = Math.floor(Math.random() * 500);
+				var ctx = $("mcp_square").getContext("2d");
+				ctx.beginPath();
+				ctx.arc(dartX,dartY,3,0,Math.PI*2,true);
+				ctx.fill();
+
+				// Do some math
+				var radius = 
+					Math.sqrt(
+						Math.pow(Math.abs(dartX - 250), 2) +
+						Math.pow(Math.abs(dartY - 250), 2)
+					);
+
+				// Update
+				++increment;
+				// If we're within a value of 250, we're in the circle
+				if (radius <= 250) ++inthecircle;
+				// What's our estimate?
+				var curPIest = inthecircle / increment * 4;
+				$("mcp_increment").update(increment);
+				$("mcp_inthecircle").update(inthecircle);
+				$("mcp_piest").update(curPIest);
+				if (increment > 1) {
+					// Draw the next line value
+					// Figure out where our line points should be
+					var pastX = (increment - 1) / dartcount * 500;
+					var pastY = 100 - (pastPIest * 25);
+					var curX = increment / dartcount * 500;
+					var curY = 100 - (curPIest * 25);
+					var gctx = $("mcp_graph").getContext("2d");
+					gctx.beginPath();
+					gctx.moveTo(pastX,pastY);
+					gctx.lineTo(curX,curY);
+					gctx.stroke();
+				}
+				// Record our current setting into the past
+				pastPIest = curPIest;
+				if (increment < dartcount) setTimeout(throwDart, 1);
+			}
+			$("mcp_start").observe("click", function(e) {
+				dartcount = $("mcp_dartcount").value;
+				increment = 0;
+				inthecircle = 0;
+				if (dartcount > 0) {
+					// Draw a basis
+					var ctx = $("mcp_square").getContext("2d");
+					ctx.beginPath();
+					ctx.fillStyle = "rgb(0,255,0)";
+					ctx.fillRect(0,0,500,500);
+					ctx.beginPath()
+					ctx.fillStyle = "rgb(255,0,0)";
+					ctx.arc(250,250,250,0,Math.PI*2,true);
+					ctx.fill();
+					ctx.fillStyle = "rgb(0,0,255)";
+					var gctx = $("mcp_graph").getContext("2d");
+					gctx.save();
+					gctx.clearRect(0,0,500,100);
+					gctx.strokeStyle = "#F00";
+					gctx.beginPath();
+					gctx.moveTo(0,100-Math.PI * 25);
+					gctx.lineTo(500,100-Math.PI * 25);
+					gctx.stroke();
+					gctx.restore();
+					$("mcp_piest").update("");
+					// Do some loopin
+					throwDart();
+				} // if dartcount > 0
+			});
+		</script>
+	</body>
+</html>
