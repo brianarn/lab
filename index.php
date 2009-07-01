@@ -24,7 +24,7 @@
 			</ul>
 		</section>
 		<footer>
-			<p>HTML5 Drum Kit by Brian Arnold, All Rights Reserved for now</p>
+			<p>Brian's Lab, all works by Brian Arnold unless otherwise noted.</p>
 		</footer>
 		<script type="text/javascript">
 			// Run on DOM ready
