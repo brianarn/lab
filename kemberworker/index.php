@@ -14,13 +14,13 @@
 	</head>
 	<body>
 		<header>
-			<h1>Kember Workers | Brian's Lab</h1>
+			<h1>Kember Workers</h1>
 		</header>
 		<section id="content">
 			<h2>What is the Kember Identity?</h2>
 			<p>Well, I don't need to write that up, <a href="http://elliottkember.com/kember_identity.html">he did</a>.</p>
 			<h2>So, what are you doing?</h2>
-			<p>Trying to determine it, utilizing the power of Web Workers!</p>
+			<p>Trying to determine it, utilizing the power of Web Workers! We'll run four in parallel</p>
 			<h2>Results</h2>
 			<ul id="results">
 			</ul>
@@ -31,6 +31,15 @@
 		<script type="text/javascript">
 			// Run on DOM ready
 			$(document).ready(function(){
+				for (var i = 0; i < 4; i++) {
+					var worker = new Worker("kemberworker.js");
+					worker.onmessage = function(e) {
+						// Push out the results
+						$('#results').append('<li>' + e.data + '</li>');
+					}; // worker.onmessage = function(e)
+					// Will tell them who's who
+					worker.postMessage(i);
+				} // for (var i = 0; i < 4; i++)
 			});
 		</script>
 	</body>
