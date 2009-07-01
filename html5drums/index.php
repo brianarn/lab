@@ -39,7 +39,7 @@ function scanForSounds($path) {
 		<link type="text/css" rel="stylesheet" href="html5drums.css" />
 		<!-- Scripts -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery.min.js"></script>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery-ui.min.js"></script>
 		<!--[if lte IE 8]>
 		<script src="../js/html5.js" type="text/javascript"></script>
 		<![endif]-->
