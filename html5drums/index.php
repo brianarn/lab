@@ -1,17 +1,8 @@
 <?
-// A convenience variable
-$sounds = 0;
-
 // A function to process and echo out a list
 function scanForSounds($path) {
-	// Pull in sounds
-	global $sounds;
-	
 	// Set up a return value
 	$return = '';
-	
-	// If we've already spit out 16, just dump out
-	if ($sounds >= 16) return $return;
 
 	// Open up the directory
 	if ($handle = opendir($path)) {
@@ -28,8 +19,6 @@ function scanForSounds($path) {
 				if (substr($file, -4) != '.wav') continue;
 				// Set it up as a full-on audio object
 				$return .= "<audio id=\"sound_$elem_id\" src=\"$fullpath\" autobuffer></audio>\n";
-				$sounds++;
-				if ($sounds >= 16) return $return;
 			} // if (is_dir($file))
 		} // while (($file = readdir($handle)) !== false)
 	} // if ($handle = opendir($path))
@@ -86,8 +75,6 @@ function scanForSounds($path) {
 
 				// Process each of the audio items, creating a playlist sort of setup
 				$("audio").each(function(i){
-					// Dump out after 8 for now
-					if (i > 7) return false;
 					// Make a self reference for ease of use in click events
 					var self = this;
 
