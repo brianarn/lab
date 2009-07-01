@@ -19,8 +19,8 @@
 		<section id="content">
 			<p>For now, here's a list of stuff under here. Total mess right now. Organizing soon.</p>
 			<ul>
-				<li><a href="canvas">Canvas</a></li>
-				<li><a href="html5drums">HTML 5 Drum Kit</a></li>
+				<li><a href="canvas/">Canvas</a></li>
+				<li><a href="html5drums/">HTML 5 Drum Kit</a></li>
 			</ul>
 		</section>
 		<footer>
