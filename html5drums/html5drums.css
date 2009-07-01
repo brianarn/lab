@@ -1,33 +1,4 @@
-/* CSS for Tenori Testing */
-
-/* Major page elements */
-body {
-	font-family: Georgia, Verdana, Arial, sans-serif;
-	background-color: #0481B5;
-}
-
-header, footer, section {
-	display: block;
-	width: 900px;
-	margin: 0px auto;
-	background-color: #FFF;
-	padding: 1em;
-	border-bottom: inset 5px blue;
-}
-
-header h1 {
-	font-size: 3em;
-}
-
-ul {
-	padding-left: 1em;
-}
-
-li {
-	padding-bottom: 0.5em;
-}
-
-/* Class/ID stuff */
+/* CSS for HTML 5 Drum Kit */
 #sounds { display: none; }
 
 #controls > li {

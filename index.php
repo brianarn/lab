@@ -3,10 +3,9 @@
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<title>HTML5 Drum Kit</title>
-		<!-- CSS -->
 		<link type="text/css" rel="stylesheet" href="styles/reset.css" />
+		<link type="text/css" rel="stylesheet" href="styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
-		<!-- Scripts -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery.min.js"></script>
 		<!--[if lte IE 8]>

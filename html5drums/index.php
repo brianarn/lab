@@ -44,14 +44,15 @@ function scanForSounds($path) {
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
 		<title>HTML5 Drum Kit</title>
 		<!-- CSS -->
-		<link type="text/css" rel="stylesheet" href="reset.css" />
+		<link type="text/css" rel="stylesheet" href="../styles/reset.css" />
+		<link type="text/css" rel="stylesheet" href="../styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
-		<link type="text/css" rel="stylesheet" href="html5drums.css" />
+		<link type="text/css" rel="stylesheet" href="styles/html5drums.css" />
 		<!-- Scripts -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery.min.js"></script>
 		<!--[if lte IE 8]>
-		<script src="html5.js" type="text/javascript"></script>
+		<script src="../js/html5.js" type="text/javascript"></script>
 		<![endif]-->
 	</head>
 	<body>
