@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>HTML5 Drum Kit</title>
+		<title>Brian's Lab</title>
 		<link type="text/css" rel="stylesheet" href="styles/reset.css" />
 		<link type="text/css" rel="stylesheet" href="styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
