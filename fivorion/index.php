@@ -21,7 +21,7 @@ for ($i = 0; $i < 16; $i++) {
 		for ($k = 0; $k < count($notes); $k++) {
 			// Figure out the path for the note - using wav files
 			$notepath = "$tones/{$notes[$k]}$j.wav";
-			$toneid = "tone_{$notes[$k]}$j";
+			$toneid = "tone_{$notes[$k]}{$j}_{$i}";
 			$tonelist .= "<li id=\"$toneid\" class=\"tone\">{$notes[$k]}$j</li>";
 			// Special breakpoint - D4 is the last note
 			if ($notes[$k] == 'd' && $j ==4) break;
@@ -60,7 +60,7 @@ for ($i = 0; $i < 16; $i++) {
 			</ul> <!-- #fivorion -->
 		</section>
 		<section id="controls">
-			<label for="temposlider">Tempo: <span id="tempovalue"></span> <abbr title="Beats per minute">BPM</abbr></label>
+			<label>Tempo: <span id="tempovalue"></span> <abbr title="Beats per minute">BPM</abbr></label>
 			<div id="temposlider"></div>
 			<button id="playpause">Start!</button>
 			<button id="clearall">Clear!</button>

@@ -60,7 +60,7 @@ function scanForSounds($path) {
 					<li><button id="clearall">Clear!</button></li>
 					<li><button id="reload">Reload from URL!</button></li>
 					<li>
-						<label for="temposlider">Tempo: <span id="tempovalue"></span> <abbr title="Beats per minute">BPM</abbr></label>
+						<label>Tempo: <span id="tempovalue"></span> <abbr title="Beats per minute">BPM</abbr></label>
 						<div id="temposlider"></div>
 					</li>
 				</ul> <!-- #controls -->
