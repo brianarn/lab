@@ -1,0 +1,42 @@
+/* CSS for Fivorion */
+#fivorion {
+	background-color: #222;
+	border: outset 5px #222;
+	padding: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+	width: 624px;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+li.tonecol {
+	display: inline-block;
+	padding: 0px;
+}
+
+li.tonecol.active {
+	background-color: #999;
+}
+
+ul.tonelist {
+	padding: 0px;
+}
+
+ul.tonelist li.tone {
+	width: 25px;
+	height: 25px;
+	border: outset 2px #333;
+	background-color: #333;
+	margin: 5px;
+	padding: 0px;
+	text-indent: -999px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+
+ul.tonelist li.active {
+	border: outset 2px #FFE900;
+	background-color: #FFE900;
+}
