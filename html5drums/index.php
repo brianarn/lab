@@ -42,12 +42,12 @@ function scanForSounds($path) {
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>HTML5 Drum Kit</title>
+		<title>HTML5 Drum Kit | Brian's Lab</title>
 		<!-- CSS -->
 		<link type="text/css" rel="stylesheet" href="../styles/reset.css" />
 		<link type="text/css" rel="stylesheet" href="../styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
-		<link type="text/css" rel="stylesheet" href="styles/html5drums.css" />
+		<link type="text/css" rel="stylesheet" href="html5drums.css" />
 		<!-- Scripts -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.3/jquery.min.js"></script>
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7/jquery.min.js"></script>
@@ -73,7 +73,7 @@ function scanForSounds($path) {
 			<?= scanForSounds('sounds'); ?>
 		</section>
 		<footer>
-			<p>HTML5 Drum Kit by Brian Arnold, All Rights Reserved for now</p>
+			<p>HTML5 Drum Kit by Brian Arnold, MIT licensed so snag away</p>
 		</footer>
 		<script type="text/javascript">
 			// Run on DOM ready

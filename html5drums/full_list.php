@@ -39,7 +39,7 @@ function scanForSounds($path) {
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>HTML5 Drum Kit</title>
+		<title>HTML5 Drum Kit - Full List Experiment | Brian's Lab</title>
 		<!-- CSS -->
 		<link type="text/css" rel="stylesheet" href="reset.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
