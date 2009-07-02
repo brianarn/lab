@@ -1,4 +1,10 @@
 <?
+/*
+ * HTML 5 Drum Kit
+ * Copyright (c) 2009 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+ * Original drum kit samples freely used from http://bigsamples.free.fr/
+ */
 // A function to process and echo out a list
 function scanForSounds($path) {
 	// Set up a return value
@@ -73,5 +79,15 @@ function scanForSounds($path) {
 			<p>HTML5 Drum Kit by Brian Arnold, MIT licensed so snag away</p>
 		</footer>
 		<script type="text/javascript" src="html5drums.js"></script>
+		<!-- Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-279164-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>	
 	</body>
 </html>

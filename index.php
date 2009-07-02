@@ -24,12 +24,22 @@
 			</ul>
 		</section>
 		<footer>
-			<p>Brian's Lab, all works by Brian Arnold unless otherwise noted.</p>
+			<p>Brian's Lab, all works by Brian Arnold unless otherwise noted. All software herein falls under an <a href="/lab/LICENSE">MIT License</a> unless otherwise noted.</p>
 		</footer>
 		<script type="text/javascript">
 			// Run on DOM ready
 			$(document).ready(function(){
 			});
 		</script>
+		<!-- Analytics! -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-279164-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>	
 	</body>
 </html>

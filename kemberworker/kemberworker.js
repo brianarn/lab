@@ -1,4 +1,12 @@
-// Kember Identity, using some pieces of Stephen McCarthy's solution, worker-style
+/*
+ * Kember Worker
+ * Copyright (c) 2009 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+ *
+ * Liberally using portions of Stephen McCarthy's JS solution, freely provided as public domain
+ *
+ * The major difference in my approach is that I'm using Web Workers only available in more modern browsers.
+ */
 importScripts('../js/md5-min.js');
 
 var hexChars = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f'];

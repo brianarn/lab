@@ -1,3 +1,10 @@
+/*
+ * HTML 5 Drum Kit
+ * Copyright (c) 2009 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+ * Original drum kit samples freely used from http://bigsamples.free.fr/
+ */
+
 // ===== VARIABLES =====
 var isPlaying = false;
 var curBeat = 0;
