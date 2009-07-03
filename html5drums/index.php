@@ -4,35 +4,53 @@
  * Copyright (c) 2009 Brian Arnold
  * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
  * Original drum kit samples freely used from http://bigsamples.free.fr/
+ * Current drum kit samples generated using GarageBand,
+ * see below for Creative Commons licensing
  */
 // A function to process and echo out a list
 function scanForSounds($path) {
 	// Set up a return value
 	$return = '';
+	
+	// Set up to save files
+	$files = array();
+	$dirs = array();
 
 	// Open up the directory
 	if ($handle = opendir($path)) {
 		while (($file = readdir($handle)) !== false) {
 			// Skip anything hidden
 			if (substr($file, 0, 1) == '.') continue;
+			// If it's not a .wav, skip on
+			if (substr($file, -4) != '.wav') continue;
 			$fullpath = "$path/$file";
-			$basename = basename($file, '.wav');
-			$elem_id = strtolower($basename);
-			$elem_id = preg_replace('/\s+/', '_', $elem_id);
-			// Clean the ID a bit
-
-			$wavpath = "$path/$basename.wav";
-			$aifpath = "$path/$basename.aif";
 			if (is_dir($fullpath)) {
-				// Scan this path, add it in
-				$return .= scanForSounds($fullpath);
+				$dirs[] = $fullpath;
 			} else {
-				// If it's not a .wav, skip on
-				if (substr($file, -4) != '.wav') continue;
-				// Set it up as a full-on audio object
-				$return .= "<audio id=\"sound_$elem_id\" title=\"$basename\" autobuffer><source src=\"$aifpath\" type=\"audio/x-aiff\"><source src=\"$wavpath\" type=\"audio/x-wav\"></audio>\n";
+				// Store for handling!
+				$files[] = $file;
 			} // if (is_dir($file))
 		} // while (($file = readdir($handle)) !== false)
+
+		// Sort the file listing for cleanness sake
+		asort($files);
+		foreach ($files as $f) {
+			// Get a clean name for the title later
+			$basename = basename($f, '.wav');
+			// Use that to make a clean-ish ID
+			$elem_id = preg_replace('/\s+/', '_', strtolower($basename));
+			// Build a couple of paths
+			$wavpath = "$path/$basename.wav";
+			$aifpath = "$path/$basename.aif";
+			// Set it up as a full-on audio object
+			$return .= "<audio id=\"sound_$elem_id\" title=\"$basename\" src=\"$wavpath\" autobuffer><!--<source src=\"$aifpath\" type=\"audio/x-aiff\"><source src=\"$wavpath\" type=\"audio/x-wav\">--></audio>\n";
+		} // foreach ($files as $f)
+		
+		asort($dirs);
+		foreach ($dirs as $d) {
+			// Scan the path, add it in
+			$return .= scanForSounds($d);
+		} // foreach ($dirs as $d)
 	} // if ($handle = opendir($path))
 
 	// Hand it back
