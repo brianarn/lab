@@ -1,0 +1,30 @@
+/* Maze Solving CSS */
+body {
+	margin: 0px;
+	font-family: Tahoma, Verdana, Arial, sans-serif;
+	background-color: #CFF;
+}
+#wrapper {
+	background-color: #FFF;
+	margin: 0px auto;
+	border: 1px solid black;
+	/*width: 800px;*/
+	width: 640px;
+}
+
+#wrapper h1 {
+	width: 100%;
+	border-bottom: 1px solid black;
+	text-align: center;
+	margin: 0px 0px 10px 0px;
+}
+
+#content {
+	/*margin: 20px;*/
+}
+
+#footer {
+	border-top: 1px solid black;
+	clear: both;
+	text-align: center;
+}
