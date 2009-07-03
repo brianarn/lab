@@ -117,7 +117,10 @@ $(document).ready(function(){
 			clearInterval(isPlaying);
 			isPlaying = false;
 			$("#tracker li.pip").removeClass("active");
-			stopAllAudio();
+			$("audio").each(function(){
+				this.pause();
+				this.currentTime = 0.0;
+			});
 			this.innerHTML = "Start!";
 		}
 	});
