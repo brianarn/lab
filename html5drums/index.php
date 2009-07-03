@@ -100,7 +100,7 @@ function scanForSounds($path) {
 			<?= scanForSounds('drumkit'); ?>
 		</section>
 		<footer>
-			<p>HTML5 Drum Kit by Brian Arnold, MIT licensed so snag away</p>
+			<p>HTML5 Drum Kit by <a href="http://www.randomthink.net/">Brian Arnold</a>, MIT licensed so snag away</p>
 			<p><a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/"><img alt="Creative Commons License" style="border-width:0" src="http://i.creativecommons.org/l/by-nc/3.0/us/88x31.png" /></a><br />All audio sounds for <span xmlns:dc="http://purl.org/dc/elements/1.1/" href="http://purl.org/dc/dcmitype/Sound" rel="dc:type">HTML5 Drum Kit</span> are licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc/3.0/us/">Creative Commons Attribution-Noncommercial 3.0 United States License</a>. Created using the standard Hip Hop Drum Kit in GarageBand.</p>
 		</footer>
 		<script type="text/javascript" src="html5drums.js"></script>

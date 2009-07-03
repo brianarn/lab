@@ -9,11 +9,12 @@
 var isPlaying = false;
 var curBeat = 0;
 var curTempo = 120;
+var audioPlaying = [];
 
 // ===== FUNCTIONS =====
 // playBeat: Play the next beat!
 function playBeat() {
-	if (isPlaying) {
+	if (isPlaying !== false) {
 		var nextBeat = 60000 / curTempo / 4;
 		// Turn off all lights on the tracker's row
 		$("#tracker li.pip").removeClass("active");
@@ -22,22 +23,34 @@ function playBeat() {
 		// Light up the tracker on the current pip
 		$("#tracker li.pip.col_" + curBeat).addClass("active");
 		// Find each active beat, play it
+		var tmpAudio;
 		$(".soundrow[id^=control] li.pip.active.col_" + curBeat).each(function(i){
-			document.getElementById($(this).data('sound_id')).play();
+			//document.getElementById($(this).data('sound_id')).play();
+			tmpAudio = document.getElementById($(this).data('sound_id'));
+			tmpAudio.play();
+			audioPlaying.push(tmpAudio);
 		});
 		// Move the pip forward
 		curBeat = (curBeat + 1) % 16;
-		// Schedule the next one
-		setTimeout(playBeat, nextBeat);
+		// Schedule the next one - now moot with shift to setInterval
+		//setTimeout(playBeat, nextBeat);
 	} // if (isPlaying)
 } // playBeat
 
 // Stop all the audio
 function stopAllAudio() {
+	/* Trying to make it more efficient
 	$('audio').each(function(){
 		this.pause();
 		this.currentTime = 0.0;
 	});
+	*/
+	var tmpAudio;
+	while (audioPlaying.length > 0) {
+		tmpAudio = audioPlaying.pop();
+		tmpAudio.pause();
+		tmpAudio.currentTime = 0.0;
+	} // while (audioPlaying.length > 0)
 } // stopAllAudio
 
 
@@ -116,11 +129,11 @@ $(document).ready(function(){
 		if (isPlaying === false) {
 			// Start the playing!
 			curBeat = 0;
-			isPlaying = true;
+			isPlaying = setInterval(playBeat, 60000 / curTempo / 4);
 			// Change our display
 			this.innerHTML = "Stop!";
-			playBeat();
 		} else {
+			clearInterval(isPlaying);
 			isPlaying = false;
 			$("#tracker li.pip").removeClass("active");
 			stopAllAudio();
@@ -151,6 +164,10 @@ $(document).ready(function(){
 		'slide': function(e, ui) {
 			curTempo = ui.value;
 			$('#tempovalue').html(curTempo);
+			if (isPlaying !== false) {
+				clearInterval(isPlaying);
+				isPlaying = setInterval(playBeat, 60000 / curTempo / 4);
+			}
 		},
 		'stop': function(e, ui) {
 			buildHash();
