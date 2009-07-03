@@ -9,7 +9,6 @@
 var isPlaying = false;
 var curBeat = 0;
 var curTempo = 120;
-var audioPlaying = [];
 
 // ===== FUNCTIONS =====
 // playBeat: Play the next beat!
@@ -18,41 +17,23 @@ function playBeat() {
 		var nextBeat = 60000 / curTempo / 4;
 		// Turn off all lights on the tracker's row
 		$("#tracker li.pip").removeClass("active");
-		// Stop all audio
-		stopAllAudio();
 		// Light up the tracker on the current pip
 		$("#tracker li.pip.col_" + curBeat).addClass("active");
 		// Find each active beat, play it
 		var tmpAudio;
 		$(".soundrow[id^=control] li.pip.active.col_" + curBeat).each(function(i){
-			//document.getElementById($(this).data('sound_id')).play();
 			tmpAudio = document.getElementById($(this).data('sound_id'));
+			if (!tmpAudio.paused) {
+				// Pause and reset it
+				tmpAudio.pause();
+				tmpAudio.currentTime = 0.0;
+			}
 			tmpAudio.play();
-			audioPlaying.push(tmpAudio);
 		});
 		// Move the pip forward
 		curBeat = (curBeat + 1) % 16;
-		// Schedule the next one - now moot with shift to setInterval
-		//setTimeout(playBeat, nextBeat);
 	} // if (isPlaying)
 } // playBeat
-
-// Stop all the audio
-function stopAllAudio() {
-	/* Trying to make it more efficient
-	$('audio').each(function(){
-		this.pause();
-		this.currentTime = 0.0;
-	});
-	*/
-	var tmpAudio;
-	while (audioPlaying.length > 0) {
-		tmpAudio = audioPlaying.pop();
-		tmpAudio.pause();
-		tmpAudio.currentTime = 0.0;
-	} // while (audioPlaying.length > 0)
-} // stopAllAudio
-
 
 // Make a new hash
 function buildHash() {
