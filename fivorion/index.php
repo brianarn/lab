@@ -41,7 +41,7 @@ for ($i = 0; $i < 16; $i++) {
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Fivorion | Brian's Lab</title>
+		<title>Fivorion | RandomThink Labs</title>
 		<link type="text/css" rel="stylesheet" href="../styles/reset.css" />
 		<link type="text/css" rel="stylesheet" href="../styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />

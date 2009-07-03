@@ -65,6 +65,8 @@ function parseHash() {
 		// Set the lights
 		var lights = pieces[0];
 		$(".soundrow[id^=control] li.pip").each(function(i){
+			// Make sure we haven't exceeded
+			if (i >= lights.length) return false;
 			// Check our location, turn on class if need be
 			if (lights.charAt(i) == '1') {
 				$(this).addClass('active');
@@ -93,7 +95,7 @@ $(document).ready(function(){
 
 		// Make a sub-list for our control
 		var $ul = $('<ul id="control_' + this.id + '" class="soundrow">');
-		$ul.append('<li class="header">' + this.id + '</li>');
+		$ul.append('<li class="header">' + this.title + '</li>');
 		// Add 16 list items!
 		for (j = 0; j < 16; j++) {
 			var $li =
@@ -132,7 +134,8 @@ $(document).ready(function(){
 	// ===== Misc =====
 	// Build or read the hash
 	if (location.hash == '') {
-		buildHash();
+		// I was building this at load - but now, no, just to be safe
+		//buildHash();
 	} else {
 		parseHash();
 	}

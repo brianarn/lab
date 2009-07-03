@@ -1,38 +1,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<title>Canvas Playtime</title>
-		<style type="text/css">
-			body {
-				margin: 0px;
-				font-family: Tahoma, Verdana, Arial, sans-serif;
-				background-color: #CFF;
-			}
-			#wrapper {
-				background-color: #FFF;
-				margin: 0px auto;
-				border: 1px solid black;
-				/*width: 800px;*/
-				width: 640px;
-			}
-
-			#wrapper h1 {
-				width: 100%;
-				border-bottom: 1px solid black;
-				text-align: center;
-				margin: 0px 0px 10px 0px;
-			}
-
-			#content {
-				/*margin: 20px;*/
-			}
-
-			#footer {
-				border-top: 1px solid black;
-				clear: both;
-				text-align: center;
-			}
-		</style>
+		<title>Maze Solving | Canvas Play | RandomThink Labs</title>
+		<link type="text/css" rel="stylesheet" href="maze.css" />
 	</head>
 	<body>
 		<div id="wrapper">
@@ -41,13 +11,10 @@
 				<div id="maze"></div>
 			</div> <!-- end #content -->
 			<div id="footer">
-				For the time being, all work &copy; 2008, Brian Arnold, All Rights Reserved
+				<p>Copyright &copy; 2009 Brian Arnold, under an <a href="/lab/LICENSE">MIT License</a></p>
 			</div> <!-- end #footer -->
 		</div> <!-- end #wrapper -->
-		<!-- Scripts down here for faster loads -->
-		<!-- Prototype -->
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/prototype/1.6.0.2/prototype.js"></script>
-		<!-- Browser check -->
 		<script type="text/javascript">
 			// Kick out the filthy IE users such as my friend James ;)
 			if (Prototype.Browser.IE) {
@@ -55,9 +22,7 @@
 				location.href("http://www.disney.com");
 			}
 		</script>
-		<!-- Maze -->
 		<script type="text/javascript" src="maze.js"></script>
-		<!-- Custom scripting -->
 		<script type="text/javascript">
 			// Create a maze
 			var mazeObj = new Maze();

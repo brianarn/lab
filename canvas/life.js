@@ -1,13 +1,14 @@
 /*
  * Game of Life
- * by Brian Arnold
- * Copyright 2008, All Rights Reserved
+ * Copyright 2008-2009 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
  *
  * Created: 19 June 2008
- * Last Modified: 30 June 2008
+ * Last Modified: 02 July 2009
  *
  * Version History:
- * 0.3 - Doing what I can to clean up, lean less on existing HTML in the page
+ * 0.4 - 02 July 2009 - Wow, a year already? Geez. No changes aside from a friendlier license.
+ * 0.3 - 30 June 2008 - Doing what I can to clean up, lean less on existing HTML in the page.
  * 0.2 - 20 June 2008 - removed "name" requirement, figured out how to bind
  * properly for a cleaner setTimeout, tried to find/kill some mem leaks.
  * Memory usage in Safari is perfectly stable.

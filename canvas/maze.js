@@ -1,5 +1,9 @@
 /*
- * A simple class to contain some maze information
+ * Maze.js
+ * Copyright (c) 2009 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+ *
+ * A simple class to 'solve' a maze.
  */
 var Maze = Class.create({
 	initialize: function(div_id, width, height) {
@@ -133,13 +137,12 @@ var Maze = Class.create({
 		} else {
 			// Wavefront: Rainbow
 			var col = parseInt(this.maze[x][y] / this.ticks * 255);
-			//style = "rgb(" + (255-col) + "," + col + "," + ((col + 127) % 255) + ")";
 			// Red to green
 			style = "rgb(" + (255-col) + "," + col + ",0)";
 			// Pure green
-			style = "rgb(0," + col + ",0)";
+			//style = "rgb(0," + col + ",0)";
 			// Pure blue
-			style = "rgb(0,0," + (255-col) + ")";
+			//style = "rgb(0,0," + (255-col) + ")";
 		}
 		return style;
 	}, // getFillStyle

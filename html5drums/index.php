@@ -16,7 +16,13 @@ function scanForSounds($path) {
 			// Skip anything hidden
 			if (substr($file, 0, 1) == '.') continue;
 			$fullpath = "$path/$file";
-			$elem_id = basename($file, '.wav');
+			$basename = basename($file, '.wav');
+			$elem_id = strtolower($basename);
+			$elem_id = preg_replace('/\s+/', '_', $elem_id);
+			// Clean the ID a bit
+
+			$wavpath = "$path/$basename.wav";
+			$aifpath = "$path/$basename.aif";
 			if (is_dir($fullpath)) {
 				// Scan this path, add it in
 				$return .= scanForSounds($fullpath);
@@ -24,7 +30,7 @@ function scanForSounds($path) {
 				// If it's not a .wav, skip on
 				if (substr($file, -4) != '.wav') continue;
 				// Set it up as a full-on audio object
-				$return .= "<audio id=\"sound_$elem_id\" src=\"$fullpath\" autobuffer></audio>\n";
+				$return .= "<audio id=\"sound_$elem_id\" title=\"$basename\" autobuffer><source src=\"$aifpath\" type=\"audio/x-aiff\"><source src=\"$wavpath\" type=\"audio/x-wav\"></audio>\n";
 			} // if (is_dir($file))
 		} // while (($file = readdir($handle)) !== false)
 	} // if ($handle = opendir($path))
@@ -37,7 +43,7 @@ function scanForSounds($path) {
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>HTML5 Drum Kit | Brian's Lab</title>
+		<title>HTML5 Drum Kit | RandomThink Labs</title>
 		<link type="text/css" rel="stylesheet" href="../styles/reset.css" />
 		<link type="text/css" rel="stylesheet" href="../styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
@@ -73,7 +79,7 @@ function scanForSounds($path) {
 			</section><!-- #drumkit -->
 		</section> <!-- #content -->
 		<section id="sounds">
-			<?= scanForSounds('sounds'); ?>
+			<?= scanForSounds('drumkit'); ?>
 		</section>
 		<footer>
 			<p>HTML5 Drum Kit by Brian Arnold, MIT licensed so snag away</p>

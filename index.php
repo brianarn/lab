@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Brian's Lab</title>
+		<title>RandomThink Labs</title>
 		<link type="text/css" rel="stylesheet" href="styles/reset.css" />
 		<link type="text/css" rel="stylesheet" href="styles/lab.css" />
 		<link type="text/css" rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/redmond/jquery-ui.css" />
@@ -14,7 +14,7 @@
 	</head>
 	<body>
 		<header>
-			<h1>Brian's Lab</h1>
+			<h1>RandomThink Labs</h1>
 		</header>
 		<section id="content">
 			<p>For now, here's a list of stuff under here. Total mess right now. Organizing soon.</p>
@@ -24,7 +24,7 @@
 			</ul>
 		</section>
 		<footer>
-			<p>Brian's Lab, all works by Brian Arnold unless otherwise noted. All software herein falls under an <a href="/lab/LICENSE">MIT License</a> unless otherwise noted.</p>
+			<p>RandomThink Labs, all works by Brian Arnold unless otherwise noted. All software herein falls under an <a href="/lab/LICENSE">MIT License</a> unless otherwise noted.</p>
 		</footer>
 		<script type="text/javascript">
 			// Run on DOM ready
