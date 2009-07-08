@@ -1,9 +1,9 @@
 /* CSS for LOGO.js */
-#logo canvas {
-	display: inline;
-	border: solid 1px black;
+.logowrapper, .controls {
+	display: inline-block;
+	vertical-align: top;
 }
 
-#logo ul {
-	display: inline-block;
+.logowrapper canvas {
+	border: solid 1px black;
 }

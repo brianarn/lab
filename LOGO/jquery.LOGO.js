@@ -14,15 +14,29 @@
 
 		// LOGO-ify this bad boy!
 		return this.each(function() {
-			// Convenience reference
+			// Convenience self-reference
 			$this = $(this);
 			
 			// Element-specific options, courtesy of the Metadata plugin
 			var o = $.meta ? $.extend({}, opts, $this.data()) : opts;
 
-			// Create our canvas, append it in
-			$('<canvas width="'+o.width+'" height="'+o.height+'"></canvas>').appendTo($this);
+			// Create a parent wrapper for our canvases - we'll want to hang onto that.
+			var $wrapper = $('<div class="logowrapper" style="position: relative; width:'+o.width+'px; height:'+o.height+'px;" />');
 
+			// Create our canvases, append them in
+			var $turtle  = $('<canvas class="turtle"  width="'+o.width+'" height="'+o.height+'" style="position: absolute; top:0px; left:0px;" />');
+			var $drawing = $('<canvas class="drawing" width="'+o.width+'" height="'+o.height+'" style="position: absolute; top:0px; left:0px;" />');
+			$wrapper.append($turtle).append($drawing);
+			
+			// Make a control area, append it in
+			var $controls = $('<ul class="controls" />');
+			$controls.append('<li>Junk Control</li>');
+			$controls.append('<li>Junk Control</li>');
+			$controls.append('<li>Junk Control</li>');
+			
+			// Push the pieces into our current item
+			$this.append($wrapper);
+			$this.append($controls);
 		}); // return this.each(function()
 	}; // $.fn.LOGO = function(options)
 
