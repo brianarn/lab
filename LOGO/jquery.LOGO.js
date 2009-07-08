@@ -27,23 +27,24 @@
 			var $turtle  = $('<canvas class="turtle"  width="'+o.width+'" height="'+o.height+'" style="position: absolute; top:0px; left:0px;" />');
 			var $drawing = $('<canvas class="drawing" width="'+o.width+'" height="'+o.height+'" style="position: absolute; top:0px; left:0px;" />');
 			$wrapper.append($turtle).append($drawing);
+			$this.append($wrapper);
 			
 			// Make a control area, append it in
-			var $controls = $('<ul class="controls" />');
-			$controls.append('<li>Junk Control</li>');
-			$controls.append('<li>Junk Control</li>');
-			$controls.append('<li>Junk Control</li>');
-			
-			// Push the pieces into our current item
-			$this.append($wrapper);
-			$this.append($controls);
+			if (o.controls) {
+				var $controls = $('<ul class="controls" />');
+				$controls.append('<li>Junk Control</li>');
+				$controls.append('<li>Junk Control</li>');
+				$controls.append('<li>Junk Control</li>');
+				$this.append($controls);
+			} // if (o.controls)
 		}); // return this.each(function()
 	}; // $.fn.LOGO = function(options)
 
 	// ===== DEFAULTS =====
 	$.fn.LOGO.defaults = {
-		'width':  500,
-		'height': 500
+		'width':    500,
+		'height':   500,
+		'controls': true
 	};
 
 	// ===== FUNCTIONS =====
