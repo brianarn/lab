@@ -119,8 +119,15 @@ $(document).ready(function(){
 	
 	// Set up events for clicking
 	$('li.square').click(function(){
+		// Add a new card there -- not proper logic
+		this.innerHTML = getCard();
+		// Redo scoring
+		calcScores();
 	}); // $('li.square').click(...)
 	
 	// Seed the first square
 	$('li#square_'+Math.floor(boardsize/2)+'_'+Math.floor(boardsize/2)).text(getCard());
+	
+	// Calculate current scores once seeded
+	calcScores();
 }); // $(document).ready(...)
