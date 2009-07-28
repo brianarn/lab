@@ -1,0 +1,43 @@
+/*
+ * Cyborg Minion
+ * Inspired by Robot Master, Copyright (c) Reiner Knizia
+ * Copyright (c) 2009 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+ */
+
+#gamearea > div,
+#gamearea > ul {
+	display: inline-block;
+	vertical-align: top;
+	margin-right: 10px;
+}
+
+#gameboard {
+	border: 1px solid black;
+	padding: 10px;
+	background-color: aqua;
+}
+
+#gameboard ul {
+	padding: 0px;
+}
+
+#gameboard li {
+	padding: 0px;
+}
+
+#gameboard li.row {
+	display: block;
+}
+
+#gameboard li.square {
+	display: inline-block;
+	width: 50px;
+	height: 50px;
+	margin: 5px;
+	border: 1px solid black;
+	font-size: 2em;
+	font-weight: bold;
+	text-align: center;
+	vertical-align: middle;
+}
