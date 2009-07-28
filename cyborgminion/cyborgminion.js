@@ -8,7 +8,7 @@
 // !===== VARIABLES =====
 var boardsize = 5;
 var $board = $('#gameboard');
-var deck = Array();
+var deck;
 
 // !===== FUNCTIONS =====
 // getRandInt(maxval): Gets an integer from 0 to maxval - 1
@@ -22,7 +22,7 @@ function getRandInt(maxval) {
 function getCard() {
 	// A place to store it
 	var newCard;
-	
+
 	// Get a potential new card value,
 	// ensure we've not maxed that stack yet
 	do {
@@ -34,41 +34,80 @@ function getCard() {
 	return newCard;
 } // function getCard()
 
+// getScoringArray(): Just so I don't have to rewrite this loop bunches of times
+function getScoringArray() {
+	var scores = Array();
+	for (var i = 0; i < boardsize + 1; ++i) {
+		scores.push(0);
+	} // for (var i = 0; i < boardsize + 1; ++i)
+	return scores;
+} // function getScoringArray()
+
+// calcScore(scores): Calculate a score based on one array of cards
+function calcScore(scores) {
+	var sumscore = 0;
+	for (var i = 0; i < boardsize + 1; ++i) {
+		switch(scores[i]) {
+			case 2:
+				// 10x the value of this card
+				sumscore += 10 * i;
+				break;
+			case 1:
+				// Value of the card
+				sumscore += i;
+			default:
+				// If it's 3 or more, add in a flat 100
+				// Otherwise, do nothin'
+				if (scores[i] > 2) sumscore += 100;
+				break;
+		} // switch(curscore[i])
+	} // for (var i = 0; i < boardsize + 1; ++i)
+	return sumscore;
+} // function calcScore(scores)
+
 // calcScores(): Determine current scores
 function calcScores() {
 	// Use a negative value for first score for safety's sake
 	var lowscore = -1;
-	var curscore = 0;
 	var lowid = '';
+	var scores, sumscore;
 	for (var i = 0; i < boardsize; ++i) {
-		// Calculate the rows
-		curscore = 0;
+		// Observe the cards in the rows
+		scores = getScoringArray();
 		$('li.square[id^=square_'+i+']').each(function(){
-			if (this.innerHTML != '') curscore += parseInt(this.innerHTML);
+			if (this.innerHTML != '') {
+				scores[parseInt(this.innerHTML)]++;
+			}
 		});
-		$('li#score_row_'+i).text(curscore);
-		// Check it
-		if (curscore < lowscore || lowscore < 0) {
+		// Calculate the score
+		sumscore = calcScore(scores);
+		$('li#score_row_'+i).text(sumscore);
+		// Check it for lowest value
+		if (sumscore < lowscore || lowscore < 0) {
 			// Store the score
-			lowscore = curscore;
+			lowscore = sumscore;
 			// Remember where we are
 			lowid = 'row_'+i;
-		} // if (curscore < lowscore || lowscore < 0)
-		
-		// Calculate the columns
-		curscore = 0;
+		} // if (sumscore < lowscore || lowscore < 0)
+
+		// Observe the cards in the columns
+		scores = getScoringArray();
 		$('li.square[id$=_'+i+']').each(function(){
-			if (this.innerHTML != '') curscore += parseInt(this.innerHTML);
+			if (this.innerHTML != '') {
+				scores[parseInt(this.innerHTML)]++;
+			}
 		});
-		$('li#score_col_'+i).text(curscore);
-		// Check it
-		if (curscore < lowscore || lowscore < 0) {
+		// Calculate the score
+		sumscore = calcScore(scores);
+		$('li#score_col_'+i).text(sumscore);
+		// Check it for lowest value
+		if (sumscore < lowscore || lowscore < 0) {
 			// Store the score
-			lowscore = curscore;
+			lowscore = sumscore;
 			// Remember where we are
 			lowid = 'col_'+i;
-		} // if (curscore < lowscore || lowscore < 0)
-		
+		} // if (sumscore < lowscore || lowscore < 0)
+
 		// Set the score, identify the low notch
 		$('li#score_current').text(lowscore);
 		$('li.score').removeClass('lowest');
@@ -76,19 +115,22 @@ function calcScores() {
 	} // for (var i = 0; i < boardsize; ++i)
 } // function calcScores()
 
-// !===== DOM READY =====
-$(document).ready(function(){
+// setupBoard(): Sets up the board (duh)
+function setupBoard() {
 	// Make sure our boardsize is odd
 	if (boardsize % 2 !== 1) {
 		alert('BAD BOARD SIZE, ARGH!');
 		return;
 	} // if (boardsize % 2 !== 1)
-	
+
+	// Clean out the gameboard
+	$board.empty();
+
+	// Set up our deck - a scoring array works nicely here
+	deck = getScoringArray();
+
 	// Do some building
 	for (var i = 0; i < boardsize + 1; ++i) {
-		// Set up an element in our deck
-		deck.push(0);
-		
 		// Build a board row
 		var newLI = $('<li id="row_'+i+'" class="row"/>');
 		var newUL = $('<ul />');
@@ -111,23 +153,32 @@ $(document).ready(function(){
 					// Spare square - let's use it to show current score
 					newUL.append('<li id="score_current" class="score"></li>');
 				} // if (j < boardsize) {
-			}
+			} // if (i < boardsize)
 		} // for (var j = 0; j < boardsize; ++j)
 		newLI.append(newUL);
 		$board.append(newLI);
 	} // for (var i = 0; i < boardsize; ++i)
-	
-	// Set up events for clicking
-	$('li.square').click(function(){
+
+	// Seed the first square
+	$('li#square_'+Math.floor(boardsize/2)+'_'+Math.floor(boardsize/2)).text(getCard());
+
+	// Calculate current scores once set up
+	calcScores();
+}
+
+// !===== DOM READY =====
+$(document).ready(function(){
+	// Set up live event for clicking
+	$('li.square').live('click', function(){
+		// If we already have something in our innerHTML, get out
+		if (this.innerHTML !== '') return;
+		
 		// Add a new card there -- not proper logic
 		this.innerHTML = getCard();
 		// Redo scoring
 		calcScores();
-	}); // $('li.square').click(...)
-	
-	// Seed the first square
-	$('li#square_'+Math.floor(boardsize/2)+'_'+Math.floor(boardsize/2)).text(getCard());
-	
-	// Calculate current scores once seeded
-	calcScores();
+	}); // $('li.square').live('click', ...)
+
+	// Set up the board
+	setupBoard();
 }); // $(document).ready(...)
