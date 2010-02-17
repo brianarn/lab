@@ -11,6 +11,7 @@ importScripts('../js/md5-min.js');
 
 var hexChars = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0', 'a', 'b', 'c', 'd', 'e', 'f'];
 var found = false;
+var running = false;
 var numProcessed = 0;
 var kID = -1;
  
@@ -22,18 +23,54 @@ function generateRandomHash() {
 	return buffer.join('');
 }
 
-function checkHash(e) {
-	if (kID < 0) {
-		kID = parseInt(e.data);
-	}
+function processHash() {
+	// Set up the message object we'll send back
+	var msg = {};
+	// Get a new hash
 	var newhash = generateRandomHash();
+	// Process it
+	var hashedhash = hex_md5(newhash);
+	if (newhash == hashedhash) {
+		//setTimeout(processHash, 50);
+		found = true;
+		running = false;
+	}
 	numProcessed++;
-	postMessage("Hash from " + kID + ": " + newhash);
-	if (numProcessed < 10) {
-		setTimeout(checkHash, 100);
-	} else {
-		postMessage(kID + " is done!");
+	// Set up options in the return message
+	msg.id = kID;
+	msg.found = found;
+	msg.running = running;
+	msg.hash = newhash;
+	msg.md5 = hashedhash;
+	msg.numProcessed = numProcessed;
+	// Send it up
+	postMessage(msg);
+	// If we're supposed to keep running, let's do so
+	if (running) {
+		setTimeout(processHash, 5);
 	}
 }
 
-onmessage = checkHash;
+onmessage = function(e) {
+	// Set our ID if unset
+	if (kID < 0) {
+		kID = parseInt(e.data.id);
+	}
+
+	// Take actions
+	switch(e.data.action) {
+		case "init":
+			// Just to be safe - does nothing
+			break;
+		case "start":
+			running = true;
+			processHash();
+			break;
+		case "stop":
+			running = false;
+			break;
+		default:
+			alert("Crap, bad message!");
+			break;
+	}
+};
