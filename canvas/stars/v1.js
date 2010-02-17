@@ -1,5 +1,5 @@
 /*
- * Fireworks
+ * Stars
  * Copyright (c) 2009 Brian Arnold
  * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
  */
@@ -54,14 +54,20 @@ function addStar(ptX, ptY) {
 
 // drawStars: Draws all stars in the array
 function drawStars() {
+	// Clear the field, get ready to draw anew
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	// Stop the animation if we're out of stars
+	if (stars.length == 0) {
+		$("#stop_anim").click();
+		return;
+	}
+
 	// Set up a list of stars to remove
 	var deadStars = new Array();
 
 	// Logging time
 	log.profile("Drawing stars");
-
-	// Clear the field, get ready to draw anew
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 	// Loop over each star, draw, and manage
 	$.each(stars, function(i) {
@@ -90,6 +96,7 @@ function drawStars() {
 	$.each(deadStars, function(i) {
 		stars.splice(this-i,1);
 	});
+
 } // function drawStars()
 
 // drawStar: Just render a star to the canvas
@@ -168,4 +175,9 @@ $("#stop_anim").click(function(){
 	if (!isAnimating) return;
 	isAnimating = false;
 	clearInterval(animTimeout);
+});
+$("#seed_stars").click(function(){
+	for (i = 0; i < 100; i++) {
+		addStar(randInt(0,canvas.width-1),randInt(0,canvas.height-1))
+	}
 });

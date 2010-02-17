@@ -1,0 +1,30 @@
+/*
+ * Stars
+ * Copyright (c) 2009 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+ */
+
+canvas#starfield {
+	float: right;
+	border: 1px solid black;
+}
+
+div#controls {
+	float: left;
+	width: 298px;
+}
+
+ul#control_list {
+	margin: 0 0 0.5em 0;
+	padding: 0;
+	list-style: none;
+}
+
+ul#control_list li {
+	cursor: pointer;
+	display: inline-block;
+	list-style: none;
+	margin: 0;
+	padding: 2px;
+	text-align: -9999px;
+}
