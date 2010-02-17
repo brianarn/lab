@@ -40,10 +40,13 @@ function scanForSounds($path) {
 			// Use that to make a clean-ish ID
 			$elem_id = preg_replace('/\s+/', '_', strtolower($basename));
 			// Build a couple of paths
+			$oggpath = "$path/$basename.ogg";
+			$mp3path = "$path/$basename.mp3";
 			$wavpath = "$path/$basename.wav";
 			$aifpath = "$path/$basename.aif";
 			// Set it up as a full-on audio object
-			$return .= "<audio id=\"sound_$elem_id\" title=\"$basename\" src=\"$wavpath\" autobuffer><!--<source src=\"$aifpath\" type=\"audio/x-aiff\"><source src=\"$wavpath\" type=\"audio/x-wav\">--></audio>\n";
+			//$return .= "<audio id=\"sound_$elem_id\" title=\"$basename\" src=\"$wavpath\" autobuffer><!--<source src=\"$aifpath\" type=\"audio/x-aiff\"><source src=\"$wavpath\" type=\"audio/x-wav\">--></audio>\n";
+			$return .= "<audio id=\"sound_$elem_id\" title=\"$basename\" autobuffer><source src=\"$wavpath\" type=\"audio/x-wav\"><source src=\"$oggpath\" type=\"application/ogg\"><source src=\"$mp3path\" type=\"audio/mpeg\"></audio>\n";
 		} // foreach ($files as $f)
 		
 		asort($dirs);
@@ -95,6 +98,10 @@ function scanForSounds($path) {
 					</li>
 				</ul> <!-- #controls -->
 			</section><!-- #drumkit -->
+			<aside id="blather">
+				<p>Note: Currently works best in FF on Win/Lin and Safari on Mac. Chrome is just funky, so I'm exploring that soon.</p>
+				<p>Thanks for stopping by! I really appreciate it. I'm glad this tool has been so well received.</p>
+			</aside> <!-- #blather -->
 		</section> <!-- #content -->
 		<section id="sounds">
 			<?= scanForSounds('drumkit'); ?>
