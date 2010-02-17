@@ -15,6 +15,20 @@ header, footer, section {
 
 header h1 {
 	font-size: 3em;
+	margin: 0;
+	padding: 0;
+}
+
+section#content {
+	overflow: hidden;
+}
+
+footer {
+	clear: both;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	padding-bottom: 0.5em;
 }
 
 ul {
@@ -22,5 +36,9 @@ ul {
 }
 
 li {
+	padding-bottom: 0.5em;
+}
+
+p {
 	padding-bottom: 0.5em;
 }
