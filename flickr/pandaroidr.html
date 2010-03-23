@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Pandaroidr</title>
+		<link href="/fonts/FontSquirrel/Hetilica/stylesheet.css" rel="stylesheet" type="text/css">
+		<style>
+			* { margin: 0; padding: 0; }
+			body {
+				background-color: black;
+				color: white;
+				font: 24pt HetilicaBold;
+			}
+			canvas {
+				position: absolute;
+				top: 0px;
+				left: 0px;
+			}
+			h1 {
+				color: #0063DC;
+			}
+			h1 span {
+				color: #FF0084;
+			}
+		</style>
+	</head>
+	<body>
+		<h1>Pandaroid<span>r</span></h1>
+		<canvas id="content">
+			<p>Your browser apparently doesn't support &lt;canvas&gt;. Try with one that does, thanks. :) </p>
+		</canvas>
+		<canvas id="falling"></canvas>
+		<!-- Scripts! -->
+		<!--[if IE]>
+			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]-->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script>
+			// Variables
+			var content, ctx, falling, fctx, w, h, pq, procFreq, loadTimer, isLoading;
+
+			// Checks
+			// Make sure we have a console.log
+			if (!window.console || !window.console.log) {
+				window.console = {};
+				window.console.log = function(){};
+			}
+			// Functions
+
+			// Events
+			$(document).ready(function(){
+				// Some locals
+				var text, textwidth;
+
+				text = "Pandaroid";
+
+				// Set some variables
+				content = document.getElementById('content');
+				ctx = content.getContext('2d');
+				falling = document.getElementById('falling');
+				fctx = falling.getContext('2d');
+				pq = new Array();
+				procFreq = 1000;
+				isLoading = false;
+
+				// Adjust the canvases
+				w = window.innerWidth - 4;
+				h = window.innerHeight - 4;
+				content.width = w;
+				content.height = h;
+				falling.width = w;
+				falling.height = h;
+
+				// Black it out, title it
+				ctx.fillStyle = "black";
+				ctx.fillRect(0,0, content.width, content.height);
+
+				// Do this after half a second, to give the font time to download
+				setTimeout(function(){
+					ctx.save();
+					ctx.fillStyle = "#0063DC";
+					ctx.strokeStyle = "black";
+					ctx.shadowColor = "#FF0084";
+					ctx.shadowOffsetX = 3;
+					ctx.shadowOffsetY = 3;
+					ctx.shadowBlur = 5;
+					ctx.font = "60pt HetilicaBold";
+					textwidth = ctx.measureText(text).width;
+					ctx.fillText(text, 30, 80);
+					ctx.strokeText(text, 30, 80);
+					ctx.fillStyle = "#FF0084";
+					ctx.shadowColor = "#0063DC";
+					ctx.fillText("r", 30 + textwidth, 80);
+					ctx.strokeText("r", 30 + textwidth, 80);
+					ctx.restore();
+
+					// Load Photos
+					loadNewShots();
+					// Start processing
+					processQueue();
+				}, 500);
+
+				// Now, get some shots
+				function loadNewShots(last_update) {
+					var apiURL;
+
+					// We're loading!
+					isLoading = true;
+
+					// Logging
+					console.log("loadNewShots(...)");
+
+					// Start building
+					apiURL = "http://api.flickr.com/services/rest/?method=flickr.panda.getPhotos&api_key=b3005447dc19dde65dd106f53af60f32&panda_name=ling+ling&per_page=100&extras=media%3Dphotos";
+					// Tack on last update
+					if (last_update) apiURL += ",last_update%3D" + last_update;
+
+					// Log it
+					console.log("apiURL: " + apiURL);
+
+					// Finish it off
+					apiURL += "&format=json&jsoncallback=?";
+					$.getJSON(
+						apiURL,
+						function(d) {
+							var photo, photoURL, img;
+							if (d.stat === 'ok') {
+								// Logging
+								console.log("Photos loaded: " + d.photos.total);
+								// Push the pictures into the queue
+								$.each(d.photos.photo, function(i,p) {
+									pq.push(p);
+								});
+								// Moar Logging
+								console.log("Queue size: " + pq.length);
+								// Queue up the next call
+								loadTimer = setTimeout(function(){
+									loadNewShots(d.photos.lastupdate);
+								}, d.photos.interval * 1000);
+								// Set up a new processing frequency
+								//procFreq = Math.floor(d.photos.interval / d.photos.total) * 1000;
+								procFreq = Math.floor(d.photos.interval / pq.length) * 1000;
+								console.log("New frequency: " + procFreq);
+							} else {
+								alert('ONOZ: ' + d.stat);
+							}
+							// Either way, loading is done, so mark us as such
+							isLoading = false;
+						}
+					); // $.getJSON
+				} // function loadNewShots(...)
+
+				function processQueue() {
+					// Logging
+					console.log("processQueue()");
+
+					// Pull a photo from the queue
+					if (pq.length > 0) {
+						photo = pq.shift();
+						photoURL = 'http://farm' + photo.farm + '.static.flickr.com/' + photo.server + '/' + photo.id + '_' + photo.secret + '_m.jpg';
+						img = new Image();
+						img.src = photoURL;
+						img.onload = function(e){
+							var x, y, r, g, b, fontsize, capwidth;
+							
+							// Some stuff for dimensions
+							x = (Math.random() * content.width * 0.8) + content.width * 0.02;
+							y = (Math.random() * content.height * 0.6) + content.height * 0.1;
+							fontsize = 25;
+							
+							// Colors for the polaroid
+							/*
+							r = 255;
+							g = 244;
+							b = 190 + Math.floor(Math.random() * 31);
+							*/
+							r = g = b = 220 + Math.floor(Math.random() * 21);
+							
+							// Draw it onto the falling surface
+							fctx.save();
+							fctx.translate(x,y)
+							fctx.rotate((Math.random() * 30.0 - 15) * Math.PI / 180.0);
+							
+							// Draw out the polaroid
+							//fctx.fillStyle = "#FAF8C5";
+							fctx.fillStyle = 'rgb('+r+','+g+','+b+')';
+							fctx.fillRect(0,0,img.width + 10, img.height + 40);
+							fctx.lineWidth = 1;
+							fctx.strokeStyle = "#555555";
+							fctx.strokeRect(0,0,img.width + 10, img.height + 40);
+							fctx.lineWidth = 2;
+							fctx.strokeRect(5,5,img.width, img.height);
+							fctx.drawImage(img, 5, 5);
+							
+							// Clip to keep text in
+							fctx.beginPath();
+							fctx.rect(0,0,img.width+10,img.height+40);
+							fctx.clip();
+
+							// Caption it
+							fctx.fillStyle = "black";
+							do {
+								fontsize--;
+								fctx.font = fontsize + "pt HetilicaBold";
+								capwidth = fctx.measureText(photo.title).width;
+							} while (fontsize > 8 && capwidth > img.width)
+							fctx.textAlign = "center";
+							fctx.textBaseline = "middle";
+							fctx.fillText(photo.title, (img.width + 10) / 2, img.height + 20);
+
+							// Reset
+							fctx.restore();
+							
+							// Queue up the next, now that we're done processing
+							setTimeout(processQueue, procFreq);
+						};
+					} else {
+						// Clear the timeout and just force a load now
+						if (!isLoading) {
+							console.log("Forcing a reload");
+							clearTimeout(loadTimer);
+							loadNewShots();
+						}
+						// Check again in a much shorter interval
+						setTimeout(processQueue, procFreq / 4);
+					} // if (pq.length);
+
+					// Queue up another check
+				} // function processQueue()
+
+				function fadeIt() {
+					// Simply just run a little fading on the canvas
+					ctx.save();
+					ctx.fillStyle = "rgba(0,0,0,0.1)";
+					ctx.fillRect(0,0,content.width,content.height);
+					ctx.restore();
+				} // function fadeIt()
+
+			 }); // $(document).ready(...)
+		</script>
+		<!-- Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-279164-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+	</body>
+</html>
