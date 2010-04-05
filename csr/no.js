@@ -18,23 +18,21 @@
 	
 	// Functions
 	function drawText(ctx, message, rot) {
-		with (ctx) {
-			save();
-			translate(window.innerWidth*Math.random(), window.innerHeight*Math.random());
-			rotate(rot*Math.PI/180);
-			fillStyle = "white";
-			strokeStyle = "blue";
-			shadowBlur = 20 * Math.random() + 10;
-			shadowColor = "green";
-			//shadowColor = "rgb("+255*Math.random()+","+255*Math.random()+","+255*Math.random()+")";
-			shadowOffsetX = 20 * Math.random() - 10;
-			shadowOffsetY = 20 * Math.random() - 10;
-			font = "bold " + parseInt(120 * Math.random() + 30) + "pt Comic Sans MS";
-			//font = parseInt(120 * Math.random() + 30) + "pt LeagueGothicRegular";
-			fillText(message, 0, 0);
-			strokeText(message, 0, 0);
-			restore();
-		} // with (ctx)
+		ctx.save();
+		ctx.translate(window.innerWidth*Math.random(), window.innerHeight*Math.random());
+		ctx.rotate(rot*Math.PI/180);
+		ctx.fillStyle = "white";
+		ctx.strokeStyle = "blue";
+		ctx.shadowBlur = 20 * Math.random() + 10;
+		ctx.shadowColor = "green";
+		//ctx.shadowColor = "rgb("+255*Math.random()+","+255*Math.random()+","+255*Math.random()+")";
+		ctx.shadowOffsetX = 20 * Math.random() - 10;
+		ctx.shadowOffsetY = 20 * Math.random() - 10;
+		ctx.font = "bold " + parseInt(120 * Math.random() + 30) + "pt Comic Sans MS";
+		//ctx.font = parseInt(120 * Math.random() + 30) + "pt LeagueGothicRegular";
+		ctx.fillText(message, 0, 0);
+		ctx.strokeText(message, 0, 0);
+		ctx.restore();
 	} // function drawText
 	
 	// Get some canvases
@@ -51,16 +49,6 @@
 	lgrno.height = h;
 	lgrnoctx = lgrno.getContext('2d');
 	
-	// TEST TEST
-	/*
-	lgrnoctx.fillStyle = "#00FF00";
-	//lgrnoctx.fillRect(100,100,200,200);
-	lgrnoctx.font = "bold 40pt LeagueGothicRegular";
-	lgrnoctx.fillText("YAR",20,20);
-	redgelctx.fillStyle = "#0000FF";
-	redgelctx.fillRect(200,200,300,300);
-	*/
-	
 	// Blackout
 	abomctx.save();
 	abomctx.fillStyle = "black";
@@ -76,40 +64,31 @@
 	// Stop it and do the overlay work now
 	setTimeout(function(){
 		clearInterval(animint);
-		with (abomctx) {
-			save();
-			globalCompositeOperation = 'xor';
-			fillStyle = "rgba(0,0,0,0.7)";
-			fillRect(0,0,w,h);
-			globalCompositeOperation = 'darker';
-			fillStyle = "rgba(110,13,6,1)";
-			fillRect(0,0,w,h);
-			restore();
-		} // with (redgelctx)
+		abomctx.save();
+		abomctx.globalCompositeOperation = 'xor';
+		abomctx.fillStyle = "rgba(0,0,0,0.7)";
+		abomctx.fillRect(0,0,w,h);
+		abomctx.globalCompositeOperation = 'darker';
+		abomctx.fillStyle = "rgba(110,13,6,1)";
+		abomctx.fillRect(0,0,w,h);
+		abomctx.restore();
 	}, comictime);
 	setTimeout(function(){
 		//var msgMeasure;
 		var fontsize = 0, fontwidth = 0, msg = "No, it doesn't.";
-		with (redgelctx) {
-			save();
-			fillStyle = "rgba(212,0,1,1)";
-			strokeStyle = "rgba(0,0,0,1)";
-			shadowColor = "rgba(0,0,0,1)";
-			shadowBlur = 1;
-			
-			do {
-				fontsize += 10;
-				font = "bold " + fontsize + "pt LeagueGothicRegular";
-				fontwidth = measureText(msg).width;
-			} while (fontwidth < w * 0.8)
-			
-			//font = "60pt Comic Sans MS";
-			//msgMeasure = abomctx.measureText("No, it doesn't.");
-			//console.log(globalCompositeOperation);
-			translate((w - fontwidth)/2,h/2);
-			fillText(msg, 0, 0);
-			strokeText(msg, 0, 0);
-			restore();
-		} // with (abomctx)
+		redgelctx.save();
+		redgelctx.fillStyle = "rgba(212,0,1,1)";
+		redgelctx.strokeStyle = "rgba(0,0,0,1)";
+		redgelctx.shadowColor = "rgba(0,0,0,1)";
+		redgelctx.shadowBlur = 1;
+		do {
+			fontsize += 10;
+			redgelctx.font = "bold " + fontsize + "pt LeagueGothicRegular";
+			fontwidth = redgelctx.measureText(msg).width;
+		} while (fontwidth < w * 0.8)
+		redgelctx.translate((w - fontwidth)/2,h/2);
+		redgelctx.fillText(msg, 0, 0);
+		redgelctx.strokeText(msg, 0, 0);
+		redgelctx.restore();
 	}, comictime + holdtime);
 })();

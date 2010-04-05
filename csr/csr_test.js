@@ -8,21 +8,19 @@ message = "League Gothic ROCKS!";
 
 // Functions
 function drawText(ctx, message, rot) {
-	with (ctx) {
-		save();
-		translate(window.innerWidth*Math.random(), window.innerHeight*Math.random());
-		//rotate(rot*Math.PI/180);
-		fillStyle = "white";
-		strokeStyle = "blue";
-		shadowBlur = 20 * Math.random() + 10;
-		shadowColor = "green";
-		shadowOffsetX = 20 * Math.random() - 10;
-		shadowOffsetY = 20 * Math.random() - 10;
-		font = "" + parseInt(120 * Math.random() + 30) + "pt LeagueGothicRegular";
-		fillText(message, 0, 0);
-		strokeText(message, 0, 0);
-		restore();
-	} // with (ctx)
+	ctx.save();
+	ctx.translate(window.innerWidth*Math.random(), window.innerHeight*Math.random());
+	//ctx.rotate(rot*Math.PI/180);
+	ctx.fillStyle = "white";
+	ctx.strokeStyle = "blue";
+	ctx.shadowBlur = 20 * Math.random() + 10;
+	ctx.shadowColor = "green";
+	ctx.shadowOffsetX = 20 * Math.random() - 10;
+	ctx.shadowOffsetY = 20 * Math.random() - 10;
+	ctx.font = "" + parseInt(120 * Math.random() + 30) + "pt LeagueGothicRegular";
+	ctx.fillText(message, 0, 0);
+	ctx.strokeText(message, 0, 0);
+	ctx.restore();
 } // function drawText
 
 // Fullscreen the canvas
