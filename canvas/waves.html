@@ -1,0 +1,247 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Waves | Canvas Play | RandomThink Labs</title>
+		<style type="text/css">
+			body {
+				margin: 0px;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+				background-color: #CFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+				margin: 0px auto;
+				border: 1px solid black;
+				/*width: 800px;*/
+				width: 640px;
+			}
+
+			#wrapper h1 {
+				width: 100%;
+				border-bottom: 1px solid black;
+				text-align: center;
+				margin: 0px 0px 10px 0px;
+			}
+
+			#content {
+				position: relative;
+				margin-left: 20px;
+			}
+
+			#footer {
+				border-top: 1px solid black;
+				clear: both;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Learning the <code>&lt;canvas&gt;</code> and <del>Prototype</del><ins>jQuery</ins> - Waves</h1>
+			<div id="content">
+				<div id="base">
+					<p>Our Canvases</p>
+					<p>Base:</p>
+					<canvas id="wavebase" width="120" height="120">No Canvas Support?</canvas>
+				</div>
+				<div id="controls">
+					<ul>
+						<li style="display: none;"><button id="tick">Tick</button></li>
+						<li><label for="damping">Damping (bigger numbers = longer lasting waves): <input id="damping" name="damping" /></li>
+					</ul>
+
+				</div>
+			</div> <!-- end #content -->
+			<div id="footer">
+				<p>Copyright &copy; 2009 Brian Arnold, under an <a href="/lab/LICENSE">MIT License</a></p>
+			</div> <!-- end #footer -->
+		</div> <!-- end #wrapper -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
+		<script type="text/javascript">
+			/*
+			 * Images play
+			 * Copyright (c) 2009 Brian Arnold
+			 * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+			 */
+			//Event.observe(window, "load", function() {
+			//$(window).bind('load', function(){
+			$(document).ready(function(){
+				// Set up variables
+				var src, ctx, imgd, i, j, w, h, midx, midy, FRAMERATE, DAMP, count, waves, wold, wnew, wavetable, tmp;
+				FRAMERATE = 100;
+				DAMP = 50;
+				src = $("#wavebase");
+				w = src.attr("width");
+				h = src.attr("height");
+				midx = Math.floor(w/2);
+				midy = Math.floor(h/2);
+				ctx = src.get(0).getContext("2d");
+				count = 0;
+
+				// Create our oldWave and newWave to all flat;
+				waves = [[],[]];
+				for (i = 0; i < h; i++) {
+					// Seed the row
+					waves[0].push([]);
+					waves[1].push([]);
+					for (j = 0; j < w; j++) {
+						// Fill it across
+						//oldWave[i].push(0);
+						//newWave[i].push(0);
+						waves[0][i].push(0);
+						waves[1][i].push(0);
+					} // for j
+				} // for i
+				// Set a point in the old wave to be high
+				//waves[0][midx][Math.floor(h/2)] = 1;
+
+				// Do a fill
+				ctx.save();
+				ctx.fillStyle = "rgb(127,127,255)";
+				ctx.fillRect(0,0,w+1,h+1);
+				ctx.restore();
+				// Get our image data out
+				imgd = ctx.getImageData(0,0,w,h);
+				//imgd = ctx.createImageData(w,h);
+				//ctx.drawImage(src.get(0), 0, 0);
+
+				// Drawing function
+				function drawIt() {
+					var c, index, val;
+
+					// Loop over rows, excluding edge
+					//for (i = 0; i < h; ++i) if had edge
+					for (i = 1; i < h-1; ++i) {
+						// Loop over cols, excluding edge
+						// for (j = 0; j < w; ++j) if had edge
+						for (j = 1; j < w-1; ++j) {
+							// Adjust the wave map
+							wold = count%2;
+							wnew = (count+1)%2;
+							//waves[wnew][i][j] =
+							val =
+							(
+								waves[wold][i-1][j] +
+								waves[wold][i+1][j] +
+								waves[wold][i][j-1] +
+								waves[wold][i][j+1]
+							) / 2 - waves[wnew][i][j];
+							val -= val / DAMP;
+							// Bounds checks, including special cases
+							if (Math.abs(val) < 0.01) {
+								val = 0;
+							/*
+							} else if (val < -1) {
+								val = -1;
+							} else if (val > 1) {
+								val = 1;
+							*/
+							}
+
+							// Save it
+							waves[wnew][i][j] = val;
+
+							if (waves[wold][i][j] !== val) {
+								// Determine our index into the image data
+								index = (i*h+j) * 4;
+
+								// Get the value out
+								//val = waves[wnew][i][j] * 127 * 10 + 127;
+								// Already set above
+								//val = waves[wnew][i][j];
+
+								// Loop over color values
+								for (c = 0; c < 4; ++c) {
+									// Switch based on color
+									// 0: Red
+									// 1: Green
+									// 2: Blue
+									// 3: Alpha
+									switch(c) {
+									// For 0-2, fall through to uniformly tweak
+									case 0:
+									case 1:
+										/*
+										if (val > 0) {
+											//imgd.data[index + c] = val * 200 + 55;
+											imgd.data[index + c] = 255;
+										} else {
+											//imgd.data[index + c] = 255 - val * 50;
+											imgd.data[index + c] = 0;
+										}
+										 */
+										imgd.data[index + c] = val + 127;
+										break;
+									case 2:
+										//imgd.data[index + c] = waves[wnew][i][j] * 2.55;
+										//imgd.data[index + c] = (val + 127) % 255;
+										imgd.data[index + c] = 255;
+										break;
+									case 3:
+										// 0 is transparent, 255 is opaque;
+										imgd.data[index + c] = 255;
+										break;
+									} // switch(c)
+								} // for var c, three colors
+							} // if (waves[wold][i][j] !== waves[wnew][i][j])
+						} // for var j
+					} // for var i
+
+					// Write back in the new image data
+					ctx.putImageData(imgd,0,0);
+
+					// Pump our count
+					count++;
+
+					// Do it again
+					setTimeout(drawIt, 1000/FRAMERATE);
+				} // function drawIt()
+
+				// Kick off the function
+				drawIt();
+
+				// Set and bind a few things
+				$("#tick").click(drawIt);
+
+				$("#damping")
+					.val(DAMP)
+					.change(function(e){
+						var tmpDamp = parseInt($(this).val());
+						if (tmpDamp < 0) tmpDamp = 1;
+						DAMP = tmpDamp;
+						$(this).val(tmpDamp);
+					});
+
+
+				function tapPt(e) {
+					var off, x, y;
+					off = $(this).offset();
+					x = e.pageX - off.left;
+					y = e.pageY - off.top;
+					touchPt(x,y)
+				} // function tapPt
+
+				function touchPt(x,y,force) {
+					if (force === undefined) force = 127;
+					waves[wold][y][x] = force;
+				} // function touchPt(x,y)
+				src.bind("click mouseover mousemove", tapPt);
+
+				/*
+				setInterval(function(){
+					touchPt(midx,midy, 187);
+				}, 1000);
+				*/
+			});
+		</script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-279164-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+	</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<title>Waves | Canvas Play | RandomThink Labs</title>
+		<style type="text/css">
+			body {
+				margin: 0px;
+				font-family: Tahoma, Verdana, Arial, sans-serif;
+				background-color: #CFF;
+			}
+			#wrapper {
+				background-color: #FFF;
+				margin: 0px auto;
+				border: 1px solid black;
+				/*width: 800px;*/
+				width: 640px;
+			}
+
+			#wrapper h1 {
+				width: 100%;
+				border-bottom: 1px solid black;
+				text-align: center;
+				margin: 0px 0px 10px 0px;
+			}
+
+			#content {
+				position: relative;
+				margin-left: 20px;
+			}
+
+			#footer {
+				border-top: 1px solid black;
+				clear: both;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="wrapper">
+			<h1>Learning the <code>&lt;canvas&gt;</code> and <del>Prototype</del><ins>jQuery</ins> - Waves</h1>
+			<div id="content">
+				<div id="base">
+					<p>Our base image:</p>
+					<img id="avatar_src" src="avatar.jpg" alt="Base Image" />
+				</div> <!-- base -->
+				<div id="canvas">
+					<p>Our Canvas</p>
+					<canvas id="avatar" width="100" height="100">No Canvas Support?</canvas>
+				</div>
+			</div> <!-- end #content -->
+			<div id="footer">
+				<p>Copyright &copy; 2009 Brian Arnold, under an <a href="/lab/LICENSE">MIT License</a></p>
+			</div> <!-- end #footer -->
+		</div> <!-- end #wrapper -->
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.js"></script>
+		<script type="text/javascript">
+			/*
+			 * Images play
+			 * Copyright (c) 2009 Brian Arnold
+			 * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+			 */
+			// When the full page has finished loading, fire up
+			//Event.observe(window, "load", function() {
+			$(window).bind('load', function(){
+				// Set up variables
+				var src, ctx, imgd, w, h, FRAMERATE, count;
+				FRAMERATE = 10;
+				src = $("#avatar_src");
+				w = src.attr("width");
+				h = src.attr("height");
+				ctx = $("#avatar").get(0).getContext("2d");
+				count = 0;
+
+				function resetImage() {
+					ctx.drawImage(src.get(0), 0, 0);
+					imgd = ctx.getImageData(0,0,w,h);
+				} // function resetImage()
+
+				resetImage();
+
+				// Drawing function
+				function drawIt() {
+					var i, j, c, a, index, base, tmp;
+					// Determine a new alpha
+					a = Math.sin(count/FRAMERATE) * 127 + 127;
+					// Reset the imagery
+					//resetImage();
+					// Loop over rows
+					for (i = 0; i < h; ++i) {
+						// Loop over cols
+						for (j = 0; j < w; ++j) {
+							// Find a starting point
+							index = (i*h+j) * 4;
+							// Build a base set of colors
+							base = [
+								imgd.data[index+1],
+								imgd.data[index+2],
+								imgd.data[index]
+							];
+							if (i === 20 && j === 20 && count < 5) {
+								console.log(base);
+							}
+							// Loop over color values
+							for (c = 0; c < 4; ++c) {
+								// Switch based on color
+								// 0: Red
+								// 1: Green
+								// 2: Blue
+								// 3: Alpha
+								switch(c) {
+								// For 0-2, fall through to uniformly tweak
+								case 0:
+								case 1:
+								case 2:
+									//imgd.data[index + c] = 255 - imgd.data[index + c];
+									//imgd.data[index + c] = Math.sin(imgd.data[index + c] + count) * 127 + 127;
+									// Shift
+									imgd.data[index + c] = base[c];
+									break;
+								case 3:
+									// 0 is transparent, 255 is opaque;
+									imgd.data[index + c] = 255;
+									//imgd.data[index + c] = a;
+									break;
+								}
+							} // for var c, three colors
+							// Set alpha up
+						} // for var j
+					} // for var i
+
+					// Write back in the new image data
+					ctx.putImageData(imgd,0,0);
+
+					// Pump our count
+					count++;
+
+					// Do it again
+					setTimeout(drawIt, 1000/FRAMERATE);
+				} // function drawIt()
+
+				// Kick off the function
+				drawIt();
+			});
+		</script>
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-279164-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+	</body>
+</html>
