@@ -2,12 +2,23 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>Magnet</title>
+    <title>Video Magnet</title>
+    <style>
+      video { display: none; }
+    </style>
   </head>
   <body>
     <h1>Video to Canvas experimentation</h1>
-    <h2>Video</h2>
-    <video>
+    <video id="src" autobuffer loop>
+      <source src="BigBuckBunny_640x360.ogv" type="video/ogg" />
+      <source src="BigBuckBunny_640x360.mp4" type="video/mp4" />
+    </video>
+    <h2>Unaltered canvas</h2>
+    <canvas id="base"></canvas>
+    <h2>Cursor canvas</h2>
+    <canvas id="cursor" width="50" height="50"></canvas>
+    <h2>Result</h2>
+    <canvas id="result"></canvas>
     <h3>Credits</h3>
     <p>Video source: <a href="http://www.bigbuckbunny.org/index.php/about/">Big Buck Bunny</a> (well, the version from <a href="http://www.craftymind.com/2010/04/20/blowing-up-html5-video-and-mapping-it-into-3d-space/">Craftymind</a>, which is another source of inspiration for dabbling here.</p>
     <script src="magnet.js"></script>
