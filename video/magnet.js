@@ -23,6 +23,7 @@
     , mtimer   // Canvas altering interval
     , mouseX   // The mouse's current x position
     , mouseY   // The mouse's current y position
+    , currad   // Cursor radius
   ;
 
   const
@@ -42,7 +43,8 @@
       , resY    // Mouse Y position relative to result
       , imgd    // Image data for the cursor
       , x, y, i // Indices for looping
-      , r       // Radius for use in alpha calc
+      , rad     // Radius for use in alpha calc
+      , r, g, b // For colors
     ;
 
     // Determine sampling position, centered on mouse
@@ -69,36 +71,39 @@
     );
 
     // Tweak the cursor
-    /*
-    curctx.fillStyle = "rgba(0,0,0,0.5)";
-    curctx.fillRect(0,0,cursor.width,cursor.height);
-    */
     imgd = curctx.getImageData(0, 0, cursor.width, cursor.height);
     for (y = 0; y < cursor.height; ++y) {
       for (x = 0; x < cursor.width; ++x) {
         i = (y * cursor.height + x) * 4;
         /*
-        imgd.data[i+0] = (imgd.data[i+0] + 127) % 256; //R
-        imgd.data[i+1] = (imgd.data[i+1] + 127) % 256; //G
-        imgd.data[i+2] = (imgd.data[i+2] + 127) % 256; //B
+        // Inverse
+        imgd.data[i+0] = 255 - imgd.data[i+0];
+        imgd.data[i+1] = 255 - imgd.data[i+1];
+        imgd.data[i+2] = 255 - imgd.data[i+2];
+        // Umm... something
         imgd.data[i+0] = (Math.sin(imgd.data[i+0]) * 127 + 127);
         imgd.data[i+1] = (Math.sin(imgd.data[i+1]) * 127 + 127);
         imgd.data[i+2] = (Math.sin(imgd.data[i+2]) * 127 + 127);
         */
-        imgd.data[i+0] = 255 - imgd.data[i+0];
-        imgd.data[i+1] = 255 - imgd.data[i+1];
-        imgd.data[i+2] = 255 - imgd.data[i+2];
-        // Fake a circle
-        r = Math.sqrt(
+        // Color shift
+        r = imgd.data[i+1];
+        g = imgd.data[i+2];
+        b = imgd.data[i+0];
+        imgd.data[i+0] = r;
+        imgd.data[i+1] = g;
+        imgd.data[i+2] = b;
+
+        // Work out a circle with alpha
+        rad = Math.sqrt(
           Math.pow(Math.abs(x - cursor.width /2), 2)
           + Math.pow(Math.abs(y - cursor.height /2), 2)
         );
-        if (r >= Math.min(cursor.width/2, cursor.height/2)) {
+        if (rad >= currad) {
           // Blank
           imgd.data[i+3] = 0;
         } else {
           imgd.data[i+3] = (
-            1 - r / Math.min(cursor.width/2, cursor.height/2)
+            1 - rad / Math.min(cursor.width/2, cursor.height/2)
           ) * 255;
         }
       } // for x
@@ -121,8 +126,6 @@
   // Events
   document.addEventListener('DOMContentLoaded', function(e) {
 
-    console.log('DOMContentLoaded');
-
     // Get some DOM references
     vid = document.getElementById('src');
     base = document.getElementById('base');
@@ -131,27 +134,13 @@
     basectx = base.getContext('2d');
     curctx = cursor.getContext('2d');
     resctx = result.getContext('2d');
-
-    // Apply a clip to the cursor
-    /*
-    curctx.beginPath();
-    curctx.arc(
-      cursor.width / 2,
-      cursor.height / 2,
-      Math.min(cursor.width / 2, cursor.height / 2),
-      0, Math.PI * 2,
-      true
-    );
-    curctx.clip();
-    */
+    currad = Math.min(cursor.width / 2, cursor.height / 2);
 
     // Mute the video before I go nuts
     vid.muted = true;
 
     // Hook some events onto the video
     vid.addEventListener('loadedmetadata', function(e) {
-      console.log('vid loadedmetadata');
-
       // Using the metadata, resize some canvases
       // Width/height take cursor into account
       // Makes for cleaner mouseover without exceptions all over
@@ -164,14 +153,12 @@
     // Set some events on the video
     vid.addEventListener('play', function(e) {
       // Video is playing, so kick up our refresher
-      console.log('vid play');
       rtimer = setInterval(refreshVid, 1000/FPS);
-      mtimer = setInterval(magnetize, 1000/FPS*2);
+      mtimer = setInterval(magnetize, 1000/FPS);
     }, false); // vid play
 
     vid.addEventListener('pause', function(e) {
       // Video is being paused, so stop the refreshser
-      console.log('vid pause');
       clearInterval(rtimer);
       clearInterval(mtimer);
     }, false); // vid pause
@@ -184,9 +171,6 @@
     // Just update position
     mouseX = e.pageX;
     mouseY = e.pageY;
-    // And update display
-    document.getElementById('mouseX').innerHTML = mouseX;
-    document.getElementById('mouseY').innerHTML = mouseY;
   }, false); // DOM onmousemove
 })(window,document);
 // vim: set sw=2 ts=2 et:

@@ -4,19 +4,13 @@
     <meta charset="UTF-8">
     <title>Video Magnet</title>
     <style>
-      video { display: none; }
-      #base {
-        width: 128px;
-        height: 72px;
-      }
-      canvas { border: 1px solid black; }
+      video, canvas { display: none; }
+      #result { display: block; }
     </style>
   </head>
   <body>
     <h1>Video to Canvas experimentation</h1>
-    <div>
-      Cursor location: (<span id="mouseX"></span>,<span id="mouseY"></span>)
-    </div>
+    <p>Trying to achieve a magnet-ish effect on mouseover</p>
     <video id="src" autoplay loop>
       <!--
       <source src="Creative_Commons_-_Get_Creative.ogv" type="video/ogg" />
@@ -25,14 +19,11 @@
       <source src="BigBuckBunny_640x360.mp4" type="video/mp4" />
       <source src="BigBuckBunny_640x360.ogv" type="video/mp4" />
     </video>
-    <h2>Unaltered canvas</h2>
     <canvas id="base"></canvas>
-    <h2>Cursor canvas</h2>
-    <canvas id="cursor" width="100" height="100"></canvas>
-    <h2>Result</h2>
+    <canvas id="cursor" width="120" height="120"></canvas>
     <canvas id="result"></canvas>
-    <h3>Credits</h3>
-    <p>Video source: <a href="http://www.bigbuckbunny.org/index.php/about/">Big Buck Bunny</a> (well, the version from <a href="http://www.craftymind.com/2010/04/20/blowing-up-html5-video-and-mapping-it-into-3d-space/">Craftymind</a>, which is another source of inspiration for dabbling here.</p>
+    <h2>Credits</h2>
+    <p>Video source: <a href="http://www.bigbuckbunny.org/index.php/about/">Big Buck Bunny</a> (well, the version from <a href="http://www.craftymind.com/2010/04/20/blowing-up-html5-video-and-mapping-it-into-3d-space/">Craftymind</a>, which is a major source of inspiration for dabbling here.</p>
     <!--
     <p>Video Source: <a href="http://mirrors.creativecommons.org/getcreative/">Get Creative</a> by Creative Commons</p>
     -->
