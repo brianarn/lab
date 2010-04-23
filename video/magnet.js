@@ -38,19 +38,15 @@
 
   // magnetize: Apply the effect
   function magnetize() {
-    var resX  // Mouse X position relative to result
-      , resY  // Mouse Y position relative to result
-      , drawX // Mouse X position of where to write to result
-      , drawY // Mouse Y position of where to write to result
+    var resX    // Mouse X position relative to result
+      , resY    // Mouse Y position relative to result
+      , imgd    // Image data for the cursor
+      , x, y, i // Indices for looping
     ;
 
     // Determine sampling position, centered on mouse
-    resX = mouseX - result.offsetLeft - cursor.width / 2;
-    resY = mouseY - result.offsetTop - cursor.height / 2;
-
-    // Where to write to? Use the cursor as buffer
-    drawX = cursor.width / 2;
-    drawY = cursor.height / 2;
+    resX = mouseX - result.offsetLeft;
+    resY = mouseY - result.offsetTop;
 
     // Bounds check: No sense doing work if we're too far to be seen
     if ( (resX > vid.videoWidth )
@@ -72,12 +68,40 @@
     );
 
     // Tweak the cursor
+    /*
     curctx.fillStyle = "rgba(0,0,0,0.5)";
     curctx.fillRect(0,0,cursor.width,cursor.height);
+    */
+    imgd = curctx.getImageData(0, 0, cursor.width, cursor.height);
+    for (y = 0; y < cursor.height; ++y) {
+      for (x = 0; x < cursor.width; ++x) {
+        i = (y * cursor.height + x) * 4;
+        /*
+        imgd.data[i+0] = (imgd.data[i+0] + 127) % 256; //R
+        imgd.data[i+1] = (imgd.data[i+1] + 127) % 256; //G
+        imgd.data[i+2] = (imgd.data[i+2] + 127) % 256; //B
+        imgd.data[i+0] = (Math.sin(imgd.data[i+0]) * 127 + 127);
+        imgd.data[i+1] = (Math.sin(imgd.data[i+1]) * 127 + 127);
+        imgd.data[i+2] = (Math.sin(imgd.data[i+2]) * 127 + 127);
+        */
+        imgd.data[i+0] = 255 - imgd.data[i+0];
+        imgd.data[i+1] = 255 - imgd.data[i+1];
+        imgd.data[i+2] = 255 - imgd.data[i+2];
+      } // for x
+    } // for y
+    curctx.putImageData(imgd, 0, 0);
 
     // Draw into the result
-    resctx.drawImage(base, 0, 0);
-    resctx.drawImage(cursor, resX, resY);
+    resctx.drawImage(
+      base,
+      cursor.width / 2, cursor.height / 2,
+      result.width,
+      result.height,
+      0, 0,
+      result.width,
+      result.height
+    );
+    resctx.drawImage(cursor, resX - cursor.width / 2, resY - cursor.width / 2);
   } // function magnetize
 
   // Events
@@ -99,19 +123,15 @@
 
     // Hook some events onto the video
     vid.addEventListener('loadedmetadata', function(e) {
-      var w, h;
-
       console.log('vid loadedmetadata');
 
       // Using the metadata, resize some canvases
       // Width/height take cursor into account
       // Makes for cleaner mouseover without exceptions all over
-      w = vid.videoWidth + cursor.width;
-      h = vid.videoHeight + cursor.height;
-      base.width    = w;
-      base.height   = h;
-      result.width  = w;
-      result.height = h;
+      base.width    = vid.videoWidth + cursor.width;;
+      base.height   = vid.videoHeight + cursor.height;;
+      result.width  = vid.videoWidth;
+      result.height = vid.videoHeight;
     }, false); // vid loadedmetadata
 
     // Set some events on the video
