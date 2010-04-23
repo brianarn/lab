@@ -42,6 +42,7 @@
       , resY    // Mouse Y position relative to result
       , imgd    // Image data for the cursor
       , x, y, i // Indices for looping
+      , r       // Radius for use in alpha calc
     ;
 
     // Determine sampling position, centered on mouse
@@ -87,34 +88,18 @@
         imgd.data[i+0] = 255 - imgd.data[i+0];
         imgd.data[i+1] = 255 - imgd.data[i+1];
         imgd.data[i+2] = 255 - imgd.data[i+2];
-        /*
-        imgd.data[i+3] = (
-          255 - Math.abs(
-            ((x + y) / cursor.width) - 1
-          ) * 255
-        );
-        imgd.data[i+3] = (
-          Math.sin(
-            (1 - Math.abs(x / cursor.width + y / cursor.height - 1)) * Math.PI
-          )
-        );
-0        */
         // Fake a circle
-        if (Math.sqrt(
-            Math.pow(Math.abs(x - cursor.width /2), 2)
-            + Math.pow(Math.abs(y - cursor.height /2), 2)
-            ) < Math.min(cursor.width/2, cursor.height/2)
-        ) {
-          imgd.data[i+3] = Math.sin(
-            (
-              1.0 - (
-                Math.abs(x / cursor.width - 0.5)
-                + Math.abs(y / cursor.height - 0.5)
-              )
-            ) * Math.PI / 2
-          ) * 255;
+        r = Math.sqrt(
+          Math.pow(Math.abs(x - cursor.width /2), 2)
+          + Math.pow(Math.abs(y - cursor.height /2), 2)
+        );
+        if (r >= Math.min(cursor.width/2, cursor.height/2)) {
+          // Blank
+          imgd.data[i+3] = 0;
         } else {
-          imgd.data[i+3] = 0; // Transparent
+          imgd.data[i+3] = (
+            1 - r / Math.min(cursor.width/2, cursor.height/2)
+          ) * 255;
         }
       } // for x
     } // for y
