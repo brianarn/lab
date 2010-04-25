@@ -1,0 +1,10 @@
+/* Mmm, styles */
+
+/* Overall tag styles */
+body { margin-left: 90px; }
+video, canvas { display: none; }
+
+/* More specific elements */
+#result { display: block; }
+
+/* vim: set sw=2 ts=2 et: */
