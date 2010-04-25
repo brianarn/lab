@@ -3,13 +3,13 @@
   <head>
     <meta charset="UTF-8">
     <title>Video Magnet</title>
-    <style>
-      video, canvas { display: none; }
-      #result { display: block; }
-    </style>
+    <link rel="stylesheet" type="text/css" href="/styles/html5reset.css">
+    <link rel="stylesheet" type="text/css" href="magnet.css">
   </head>
   <body>
-    <h1>Video to Canvas experimentation</h1>
+    <header>
+      <h1>Video to Canvas experimentation</h1>
+    </header>
     <p>Trying to achieve a magnet-ish effect on mouseover</p>
     <video id="src" autoplay loop>
       <!--
@@ -17,7 +17,7 @@
       <source src="Creative_Commons_-_Get_Creative.mov" type="video/mp4" />
       -->
       <source src="BigBuckBunny_640x360.mp4" type="video/mp4" />
-      <source src="BigBuckBunny_640x360.ogv" type="video/mp4" />
+      <source src="BigBuckBunny_640x360.ogv" type="video/ogg" />
     </video>
     <canvas id="base"></canvas>
     <canvas id="cursor" width="120" height="120"></canvas>
@@ -27,6 +27,7 @@
     <!--
     <p>Video Source: <a href="http://mirrors.creativecommons.org/getcreative/">Get Creative</a> by Creative Commons</p>
     -->
+    <p>Copyright &copy; 2010 Brian Arnold, MIT license. Take a peek at the source, or just take it outright if you like.</p>
     <script src="magnet.js"></script>
   </body>
 </html>
