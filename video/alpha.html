@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+		<title>Alpha | RandomThink Labs</title>
+		<link type="text/css" rel="stylesheet" href="../styles/reset.css" />
+		<link type="text/css" rel="stylesheet" href="../styles/lab.css" />
+		<link type="text/css" rel="stylesheet" href="alpha.css" />
+	</head>
+	<body>
+		<header>
+			<h1>Alpha</h1>
+		</header>
+		<section id="content">
+			<h2>What it does</h2>
+			<p>Start the video, then play with the slider to see!</p>
+			<h3>Video</h3>
+			<video id="src" autobuffer>
+				<source src="BigBuckBunny_640x360.mp4" type="video/mp4" />
+				<source src="BigBuckBunny_640x360.ogv" type="video/ogg" />
+			</video>
+			<canvas id="interim">Interim Canvas!</canvas>
+			<canvas id="output">No canvas?</canvas>
+			<button id="ctrl" disabled="disabled">Play</button>
+			<button id="rewind" disabled="disabled">Rewind</button>
+			<input id="range" type="range" value="100" min="5" max="100">
+		</section> <!-- #content -->
+		<footer>
+		<p><em>Alpha</em> by <a href="http://www.randomthink.net/">Brian Arnold</a>, MIT licensed so snag away</p>
+		</footer>
+		<!--<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4/jquery.min.js"></script>-->
+		<script src="alpha.js"></script>
+		<!-- Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-279164-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
+	</body>
+</html>

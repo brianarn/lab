@@ -41,11 +41,21 @@
 
 		// Mute the video for now
 		vid.muted = true;
+		// Cut the speed -- for fun
+		vid.playbackRate = 0.5;
 
 		// Set some event handling on the video
 		vid.addEventListener('progress', function (e){
-			// For now, just dump the event so I can inspect it
-			debug(e,'dir');
+			var percentage;
+			debug('vid.progress fired');
+
+			// Figure out how far we are in
+			percentage = parseInt(vid.buffered.end(0) / vid.duration * 100, 10);
+			debug('Progress: ' + percentage + ' percent');
 		}, false);
+
+		// Finally, expose a few things to the global space
+		// for easier debugging myself
+		window.vid = vid;
 	}, false);
 })(window, document);

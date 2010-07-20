@@ -1,0 +1,11 @@
+/*
+ * Alpha (video play)
+ * Copyright (c) 2010 Brian Arnold
+ * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
+ */
+
+/* Hide our workspaces */
+canvas, video { display: none; }
+
+/* Make our output pop out */
+#output { display: block; }
