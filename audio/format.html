@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Audio Format Experiments</title>
+    </head>
+    <body>
+        <h1>Audio Format Experiments</h1>
+        <p>I wanted to see how reliably we can 'loop' audio files. Turns out, it's pretty poor.</p>
+        <p>I'm trying to find a better way to work with &lt;audio&gt; that works across multiple browsers to improve my <a href="/labs/html5drums/">HTML5 drum kit</a> toy.</p>
+        <p>If you play with this, would you <a href="http://brianarn.wufoo.com/forms/audio-format-survey/">fill out a short survey</a>?</p>
+        <ul id="elements">
+            <li><audio id="cowbell_wav" src="cowbell.wav" autobuffer></audio></li>
+            <li><audio id="cowbell_mp3" src="cowbell.mp3" autobuffer></audio></li>
+            <li><audio id="cowbell_ogg" src="cowbell.ogg" autobuffer></audio></li>
+            <li><audio id="cowbell_aif" src="cowbell.aif" autobuffer></audio></li>
+        </ul>
+        <p>&lt;insert requisite "you should <a href="http://twitter.com/brianarn">follow me on Twitter</a>" link here&gt;</p>
+        <script>
+        (function () {
+            var sounds, interval, i, l;
+
+            // Set up
+            interval = 500;
+            sounds = document.getElementsByTagName('audio');
+
+            // Build up
+            for (i = 0, l = sounds.length; i < l; i++) (function (i) {
+                var el, fmt, label, play, rew, cycle, cycling;
+
+                // Just because it's easier to work with this way
+                el = sounds[i];
+
+                // Get/make some stuff
+                fmt = el.id.split('_')[1];
+                label = document.createElement('label');
+                label.innerHTML = fmt;
+                play = document.createElement('button');
+                play.innerHTML = 'Play';
+                rew = document.createElement('button');
+                rew.innerHTML = 'Rewind';
+                cycle = document.createElement('button');
+                cycle.innerHTML = 'Loop @ '+interval+'ms';
+
+                // Handlerrrrrrrrs
+                play.addEventListener('click', function (e) {
+                    if (el.paused) {
+                        play.innerHTML = 'Pause';
+                        el.play();
+                    } else {
+                        play.innerHTML = 'Play';
+                        el.pause();
+                    }
+                }, false);
+                rew.addEventListener('click', function (e) {
+                    if (!el.paused) {
+                        play.innerHTML = 'Play';
+                        el.pause();
+                    }
+                    el.currentTime = 0;
+                }, false);
+                cycle.addEventListener('click', function (e) {
+                    if (cycle.innerHTML === 'Stop') {
+                        clearInterval(cycling);
+                        cycle.innerHTML = 'Loop @ '+interval+'ms';
+                    } else {
+                        cycle.innerHTML = 'Stop';
+                        if (!el.paused) {
+                            play.innerHTML = 'Play';
+                            el.pause();
+                        }
+                        cycling = setInterval(function () {
+                            el.pause();
+                            el.currentTime = 0;
+                            el.play();
+                        }, interval);
+                    }
+                }, false);
+                el.addEventListener('ended', function (e) {
+                    // Rewind it
+                    el.pause();
+                    el.currentTime = 0;
+                    play.innerHTML = 'Play';
+                }, false);
+
+                // Put the stuff into the li
+                el.parentNode.appendChild(label);
+                el.parentNode.appendChild(play);
+                el.parentNode.appendChild(rew);
+                el.parentNode.appendChild(cycle);
+            })(i);
+        })();
+        </script>
+    </body>
+</html>
