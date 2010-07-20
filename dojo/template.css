@@ -1,0 +1,33 @@
+/* === General === */
+/* HTML5 elements */
+article, aside, figure, footer, header, hgroup, 
+menu, nav, section { display: block; }
+
+body {
+	background-color: #73B4FF;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	margin: 0px 0px 10px 0px;
+}
+
+h1 { font-size: 3em; font-weight: bolder; }
+
+/* === Specific elements === */
+#wrap {
+	/* Mmm, borders */
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+	/* Drop shadows too */
+	webkit-box-shadow: 5px 5px 5px #474747;
+	-moz-box-shadow: 5px 5px 5px #474747;
+	box-shadow: 5px 5px 5px #474747;	
+	/* Other more boring stuff */
+	background-color: #FFF;
+	margin: 10px auto;
+	width: 960px;
+	padding: 10px;
+}
+
+/* vim: set sw=4 ts=4 noet: */

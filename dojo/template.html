@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>#TEMPLATE#</title>
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dojo/resources/dojo.css">
+		<link rel="stylesheet" type="text/css" href="http://ajax.googleapis.com/ajax/libs/dojo/1.5/dijit/themes/claro/claro.css">
+		<link rel="stylesheet" type="text/css" href="#TEMPLATE#.css">
+	</head>
+	<body class="claro">
+		<div id="wrap">
+			<header>
+			  <h1>#TEMPLATE#</h1>
+			</header>
+			<section id="content">
+			</section>
+			<footer>
+				<p>All content on this page copyright &copy; 2010 Brian Arnold, released under an MIT license, so, do whatever you want with it.</p>
+			</footer>
+		</div>
+		<!-- Scripts! -->
+		<script type="text/javascript">
+			// Dojo Config -- MUST be before Dojo comes in
+			var djConfig = {
+				parseOnLoad: true,
+				isDebug: true
+			};
+		</script>
+		<script src="http://ajax.googleapis.com/ajax/libs/dojo/1.4/dojo/dojo.xd.js"></script>
+		<script src="#TEMPLATE#.js"></script>
+		<!-- Analytics -->
+		<script type="text/javascript">
+			var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+			document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+			try {
+				var pageTracker = _gat._getTracker("UA-279164-1");
+				pageTracker._trackPageview();
+			} catch(err) {}
+		</script>
+	</body>
+</html>
+<!-- vim: set sw=4 ts=4 noet: -->
