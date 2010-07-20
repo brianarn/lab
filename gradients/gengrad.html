@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Gradient Testing</title>
+        <style>
+        #box {
+            background-color: #C1C1C1;
+            -webkit-border-radius: 7px;
+            -moz-border-radius: 7px;
+            border-radius: 7px;
+            border: 2px solid #909090;
+            -webkit-box-shadow: 2px 2px 1px #707070;
+            -moz-box-shadow: 2px 2px 1px #707070;
+            box-shadow: 2px 2px 1px #707070;
+            /*
+            background-image: -webkit-gradient(
+                linear,
+                left top,
+                left bottom,
+                color-stop(0, rgb(153,153,153)),
+                color-stop(0.1, rgb(193,193,193)),
+                color-stop(0.9, rgb(193,193,193)),
+                color-stop(1, rgb(153,153,153))
+            );
+            */
+            height: 400px;
+            width: 400px;
+            padding: 20px;
+        }
+        </style>
+    </head>
+    <body>
+        <h1>A box!</h1>
+        <div id="box">
+            <button id="redo">Click me to regenerate the background</button>
+        </div>
+        <script src="gengrad.js"></script>
+    </body>
+</html>
