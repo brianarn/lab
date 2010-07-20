@@ -1,0 +1,57 @@
+/*
+ * Diesel Sweeties mockup with touch
+ */
+
+/* A simple reset and some settings */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Emulate the iPad dimensions with this wrapper */
+#wrapper {
+    height: 1024px;
+    width: 768px;
+    overflow: hidden;
+}
+
+#wrapper header {
+    background-color: black;
+    display: block;
+}
+
+#out {
+    font-size: 36px;
+}
+
+#comics {
+    display: block;
+    position: relative;
+}
+
+#comics img {
+    opacity: 0;
+    -webkit-transition-property: left, opacity;
+    -webkit-transition-delay: 1s;
+}
+
+#comics img.cur {
+    opacity: 1;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+}
+
+#comics img.prev {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: -1024px;
+}
+
+#comics img.next {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 1024px;
+}
