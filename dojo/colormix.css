@@ -54,9 +54,21 @@ h1 { font-size: 3em; font-weight: bolder; }
 }
 
 #slider {
-	float: left;
-	margin: 5px 5px 5px 220px;
-	width: 433px;
+	/*margin: 5px;
+	width: 433px;*/
+	width: 100%;
+}
+
+#controls {
+	margin-left: 223px;
+	width: 424px;
+	height: 127px;
+	text-align: center;
+}
+
+#leftControls, #rightControls {
+	width: 190px;
+	text-align: center;
 }
 
 #resultCol {

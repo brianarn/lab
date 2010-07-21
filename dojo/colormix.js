@@ -5,14 +5,17 @@
 // Dojo Requires
 dojo.require('dojo.Stateful');
 dojo.require('dijit.ColorPalette');
+dojo.require('dijit.form.Button');
 dojo.require('dijit.form.HorizontalSlider');
+dojo.require('dijit.form.TextBox');
+dojo.require('dijit.layout.BorderContainer');
+dojo.require('dijit.layout.ContentPane');
 
 // Variables
-// (I realize global isn't always great, but this is just a simple demo)
-var left, right, slider, result;
+// (I realize global isn't a great idea, but this is just a simple demo)
+var controls, left, right, slider, result, output;
 
 // Functions
-
 // rndCol: Just a simple way to get a random color
 function rndCol() {
 	var i, cols = new Array(3);
@@ -28,7 +31,6 @@ function rndCol() {
 function colChange(prop, oldCol, newCol) {
 	// Set the node's background
 	var node = this.get('displayNode'), newColHex = newCol.toHex();
-	console.log('colChange', this, prop, oldCol, newCol);
 
 	// If we have the same color, we can just get out
 	if (oldCol && newCol && oldCol.toHex() === newColHex) return;
@@ -54,11 +56,12 @@ function mixCols(val) {
 	var leftCol = left.get('color'),
 		rightCol = right.get('color');
 
-	console.log('mixCols()');
 	if (!leftCol || !rightCol) {
 		// Just dump out for now
 		return;
 	}
+
+	output.innerHTML = val;
 
 	// TODO Animate
 	result.set('color', dojo.blendColors(leftCol, rightCol, val));
@@ -84,14 +87,55 @@ dojo.ready(function(){
 		displayNode: dojo.byId('resultCol')
 	});
 
+	controls = new dijit.layout.BorderContainer({}, 'controls');
+
+	var lp = new dijit.layout.ContentPane({
+		id: 'leftControls',
+		region: 'left'
+	});
+	controls.addChild(lp);
+	var btl = new dijit.form.Button({
+		label: "Randomize Left Color",
+		onClick: function () {
+			left.set('color', rndCol());
+		}
+	});
+	lp.containerNode.appendChild(btl.domNode);
+
+	var rp = new dijit.layout.ContentPane({
+		id: 'rightControls',
+		region: 'right'
+	});
+	controls.addChild(rp);
+	var btr = new dijit.form.Button({
+		label: "Randomize Right Color",
+		onClick: function () {
+			right.set('color', rndCol());
+		}
+	});
+	rp.containerNode.appendChild(btr.domNode);
+
+	var ft = new dijit.layout.ContentPane({
+		id: 'footer',
+		region: 'bottom'
+	});
+	controls.addChild(ft);
+
 	// Build a slider
 	slider = new dijit.form.HorizontalSlider({
+		id: 'slider',
 		value: 0.5,
 		minimum: 0,
 		maximum: 1,
 		//intermediateChanges: true,
 		onChange: mixCols
-	}, 'slider');
+	});
+	ft.containerNode.appendChild(slider.domNode);
+
+	// Show some info
+	output = dojo.create('span');
+	ft.containerNode.appendChild(dojo.create('span', {innerHTML: 'Slider value: '}));
+	ft.containerNode.appendChild(output);
 
 	// Set up some events
 	left.watch('color', colChangeAndMix);
@@ -106,7 +150,8 @@ dojo.ready(function(){
 
 		// Mmm, events
 		dojo.connect(disp, "onclick", function () {
-			palNode.style.visibility = 'visible';
+			vis = palNode.style.visibility;
+			palNode.style.visibility = vis === 'visible' ? 'hidden' : 'visible';
 		});
 		dojo.connect(pal, 'onChange', function (col) {
 			palNode.style.visibility = 'hidden';
@@ -118,7 +163,9 @@ dojo.ready(function(){
 		item.set('color', rndCol());
 	});
 
-	// Show it all
+	// Get the show on the road
+	//dojo.byId('controls').appendChild(controls.domNode);
+	controls.startup();
 	dojo.byId('loading').style.display = 'none';
 	dojo.byId('content').style.display = '';
 }); // dojo.ready

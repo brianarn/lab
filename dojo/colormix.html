@@ -12,6 +12,15 @@
 			<header>
 			  <h1>Color Mixer</h1>
 			</header>
+			<section id="instructions">
+				<p>Dojo has a nice convenient utility for mixing two colors, including balancing towards one of the colors. This little demo shows off the color picker as well as balancing.</p>
+				<p>How to work with it:</p>
+				<ul>
+					<li>Drag the slider left and right to adjust the balance of the mix.</li>
+					<li>Click on one of the top color blocks to display a color picker, which you can use to directly select a color.</li>
+					<li>Use either of the randomize buttons to set the color at random (duh)</li>
+				</ul>
+			</section>
 			<section id="loading">
 				Loading, please wait...
 			</section>
@@ -22,8 +31,8 @@
 					<span id="rightCol" class="colorpane"> </span>
 					<span id="rightPal" class="colorpane"> </span>
 				</div>
-				<div class="colorwrap">
-					<span id="slider"> </span>
+				<div>
+					<div id="controls"></div>
 				</div>
 				<div class="colorwrap">
 					<span id="resultCol" class="colorpane"> </span>
@@ -37,7 +46,6 @@
 		<script type="text/javascript">
 			// Dojo Config -- MUST be before Dojo comes in
 			var djConfig = {
-				parseOnLoad: true,
 				isDebug: true
 			};
 		</script>
