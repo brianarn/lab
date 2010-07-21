@@ -3,8 +3,10 @@
 article, aside, figure, footer, header, hgroup, 
 menu, nav, section { display: block; }
 
-body {
+body.claro {
 	background-color: #73B4FF;
+	font-size: 14px;
+	font-family: Verdana, Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -28,6 +30,12 @@ h1 { font-size: 3em; font-weight: bolder; }
 	margin: 10px auto;
 	width: 960px;
 	padding: 10px;
+}
+
+#loading {
+	font-size: 36px;
+	font-weight: bold;
+	text-align: center;
 }
 
 .colorwrap {
