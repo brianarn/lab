@@ -37,12 +37,12 @@
 	</head>
 	<body>
 		<div id="wrapper">
-			<h1>Learning the <code>&lt;canvas&gt;</code> and <del>Prototype</del><ins>jQuery</ins> - Waves</h1>
+			<h1>Learning the <code>&lt;canvas&gt;</code> - Waves</h1>
 			<div id="content">
 				<div id="base">
 					<p>Our Canvases</p>
 					<p>Base:</p>
-					<canvas id="wavebase" width="120" height="120">No Canvas Support?</canvas>
+					<canvas id="wavebase" width="150" height="150">No Canvas Support?</canvas>
 				</div>
 				<div id="controls">
 					<ul>
@@ -63,8 +63,6 @@
 			 * Copyright (c) 2009 Brian Arnold
 			 * Software licensed under MIT license, see http://www.randomthink.net/lab/LICENSE
 			 */
-			//Event.observe(window, "load", function() {
-			//$(window).bind('load', function(){
 			$(document).ready(function(){
 				// Set up variables
 				var src, ctx, imgd, i, j, w, h, midx, midy, FRAMERATE, DAMP, count, waves, wold, wnew, wavetable, tmp;
