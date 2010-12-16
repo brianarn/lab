@@ -1,0 +1,3 @@
+[submodule "SimpleLoadDemo"]
+	path = SimpleLoadDemo
+	url = git://github.com/brianarn/SimpleLoadDemo.git
