@@ -1,12 +1,12 @@
 /*
  * drawspeed.js
  * Simple test of render speeds
- * Last modified: 2011-02-02 22:20:58
+ * Last modified: 2011-02-02 22:29:25
  */
 
 // Mmm, clean
 (function(){
-	var timer, domctx, jscanvas, jsctx, startDOM, startJS;
+	var timer, domctx, jscanvas, jsctx, startDOM, startJS, output;
 
 	// Timer from Paul Banks
 	// See:
@@ -58,6 +58,7 @@
 
 	// Some drawing functions
 	function drawDOM(){
+		var msg;
 		console.log('drawDOM');
 
 		// Start timing
@@ -69,10 +70,13 @@
 
 		// Report
 		timer.stop();
-		console.log('Complete. Time:',timer.getTime());
+		msg = 'Complete! Time: ' + timer.getTime() + 'ms';
+		console.log(msg);
+		output.innerHTML = msg;
 	} // function drawDOM
 
 	function drawJS(){
+		var msg;
 		console.log('drawJS');
 
 		// Start timing
@@ -87,7 +91,9 @@
 
 		// Report
 		timer.stop();
-		console.log('Complete. Time:',timer.getTime());
+		msg = 'Complete! Time: ' + timer.getTime() + 'ms';
+		console.log(msg);
+		output.innerHTML = msg;
 	} // function drawJS
 
 	// Some initialization to kick off at DOM Ready
@@ -98,10 +104,9 @@
 		jscanvas.width = 400;
 		jscanvas.height = 400;
 		jsctx = jscanvas.getContext('2d');
-
-		// Now, some DOM references for events
 		startDOM = document.getElementById('startDOM');
 		startJS = document.getElementById('startJS');
+		output = document.getElementById('output');
 
 		startDOM.addEventListener('click', drawDOM, false);
 		startJS.addEventListener('click', drawJS, false);
