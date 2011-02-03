@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Canvas Perf Testing | RandomThink Labs</title>
+		<link type="text/css" rel="stylesheet" href="/labs/styles/reset.css" />
+		<link type="text/css" rel="stylesheet" href="/labs/styles/lab.css" />
+	</head>
+	<body>
+		<h1>Canvas Perf Testing</h1>
+		<section id="content">
+			<h2>Description</h2>
+			<p>Just wanted to see how much of a perf hit it would be to do a bunch of fills on a canvas in the DOM vs doing it all to a canvas that's not in the DOM and then writing over the one that is.</p>
+			<h2>Demo</h2>
+			<div id="controls">
+				<button id="startDOM">Overwrite directly on DOM</button>
+				<button id="startJS">Overwrite in pure JS canvas, writing that out once</button>
+			</div>
+			<canvas id="canvas" width="400" height="400">This browser doesn't support canvas. Sucks to be you.</canvas>
+		</section>
+		<script src="drawspeed.js"></script>
+	</body>
+</html>
