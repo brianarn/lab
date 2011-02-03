@@ -1,7 +1,7 @@
 /*
  * drawspeed.js
  * Simple test of render speeds
- * Last modified: 2011-02-02 22:09:58
+ * Last modified: 2011-02-02 22:20:58
  */
 
 // Mmm, clean
@@ -29,13 +29,65 @@
 		}
 	};
 
-	// Functions!
+	// Generate a random color
+	function randCol(){
+		var r, g, b;
+
+		// Yes, this isn't very DRY. No, don't care so much here.
+		r = Math.floor(Math.random() * 256);
+		g = Math.floor(Math.random() * 256);
+		b = Math.floor(Math.random() * 256);
+
+		return 'rgb('+r+','+g+','+b+')';
+	}
+
+	// Given a context, actually draw out something random on it
+	function doDrawing(ctx){
+		var numsides = 200,
+			scale = 400 / numsides,
+			i, j;
+		console.log('doDrawing');
+
+		for (i = 0; i < numsides; ++i) {
+			for (j = 0; j < numsides; ++j) {
+				ctx.fillStyle = randCol();
+				ctx.fillRect(i * scale, j * scale, scale, scale);
+			} // for j
+		} // for i
+	} // function doDrawing
 
 	// Some drawing functions
 	function drawDOM(){
+		console.log('drawDOM');
+
+		// Start timing
+		console.log('Starting Timer');
+		timer.start();
+
+		// Draw right onto the DOM context
+		doDrawing(domctx);
+
+		// Report
+		timer.stop();
+		console.log('Complete. Time:',timer.getTime());
 	} // function drawDOM
 
 	function drawJS(){
+		console.log('drawJS');
+
+		// Start timing
+		console.log('Starting Timer');
+		timer.start();
+
+		// Draw onto our JS-only context
+		doDrawing(jsctx);
+
+		// Now, draw that image onto the DOM context
+		domctx.drawImage(jscanvas, 0, 0);
+
+		// Report
+		timer.stop();
+		console.log('Complete. Time:',timer.getTime());
 	} // function drawJS
 
 	// Some initialization to kick off at DOM Ready
@@ -54,17 +106,6 @@
 		startDOM.addEventListener('click', drawDOM, false);
 		startJS.addEventListener('click', drawJS, false);
 	} // function init
-
-	function randCol(){
-		var r, g, b;
-
-		// Yes, this isn't very DRY. No, don't care so much here.
-		r = Math.floor(Math.random() * 256);
-		g = Math.floor(Math.random() * 256);
-		b = Math.floor(Math.random() * 256);
-
-		return 'rgb('+r+','+g+','+b+')';
-	}
 
 	// Actually kick off our init at DOM Ready
 	document.addEventListener('DOMContentLoaded', init, false);
