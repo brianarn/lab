@@ -7,7 +7,9 @@
 		<link type="text/css" rel="stylesheet" href="/labs/styles/lab.css" />
 	</head>
 	<body>
-		<h1>Canvas Perf Testing</h1>
+		<header>
+			<h1>Canvas Perf Testing</h1>
+		</header>
 		<section id="content">
 			<h2>Description</h2>
 			<p>Just wanted to see how much of a perf hit it would be to do a bunch of fills on a canvas in the DOM vs doing it all to a canvas that's not in the DOM and then writing over the one that is.</p>
@@ -19,6 +21,20 @@
 			<canvas id="canvas" width="400" height="400">This browser doesn't support canvas. Sucks to be you.</canvas>
 			<div id="output"></div>
 		</section>
+		<footer>
+		<p><em>Alpha</em> by <a href="http://www.randomthink.net/">Brian Arnold</a>, MIT licensed so snag away</p>
+		</footer>
+		<!-- Mmm, scripts -->
 		<script src="drawspeed.js"></script>
+		<!-- Analytics -->
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-279164-1");
+pageTracker._trackPageview();
+} catch(err) {}</script>
 	</body>
 </html>
