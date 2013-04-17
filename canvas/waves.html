@@ -42,7 +42,7 @@
 				<div id="base">
 					<p>Our Canvases</p>
 					<p>Base:</p>
-					<canvas id="wavebase" width="150" height="150">No Canvas Support?</canvas>
+					<canvas id="wavebase" width="300" height="300">No Canvas Support?</canvas>
 				</div>
 				<div id="controls">
 					<ul>
@@ -67,7 +67,7 @@
 				// Set up variables
 				var src, ctx, imgd, i, j, w, h, midx, midy, FRAMERATE, DAMP, count, waves, wold, wnew, wavetable, tmp;
 				FRAMERATE = 100;
-				DAMP = 50;
+				DAMP = 250;
 				src = $("#wavebase");
 				w = src.attr("width");
 				h = src.attr("height");
@@ -105,7 +105,7 @@
 
 				// Drawing function
 				function drawIt() {
-					var c, index, val;
+					var c, index, val, data = imgd.data;
 
 					// Loop over rows, excluding edge
 					//for (i = 0; i < h; ++i) if had edge
@@ -161,23 +161,23 @@
 									case 1:
 										/*
 										if (val > 0) {
-											//imgd.data[index + c] = val * 200 + 55;
-											imgd.data[index + c] = 255;
+											//data[index + c] = val * 200 + 55;
+											data[index + c] = 255;
 										} else {
-											//imgd.data[index + c] = 255 - val * 50;
-											imgd.data[index + c] = 0;
+											//data[index + c] = 255 - val * 50;
+											data[index + c] = 0;
 										}
 										 */
-										imgd.data[index + c] = val + 127;
+										data[index + c] = val + 127;
 										break;
 									case 2:
-										//imgd.data[index + c] = waves[wnew][i][j] * 2.55;
-										//imgd.data[index + c] = (val + 127) % 255;
-										imgd.data[index + c] = 255;
+										//data[index + c] = waves[wnew][i][j] * 2.55;
+										//data[index + c] = (val + 127) % 255;
+										data[index + c] = 255;
 										break;
 									case 3:
 										// 0 is transparent, 255 is opaque;
-										imgd.data[index + c] = 255;
+										data[index + c] = 255;
 										break;
 									} // switch(c)
 								} // for var c, three colors

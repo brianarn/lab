@@ -94,11 +94,13 @@
 			var grid_count = 50;
 			var grid_size = 10; // In Pixels
 			var living = 20; // 1-100% of activated cells
-			var tick_timer = 100; // How frequently to tick
+			var tick_timer = 5; // How frequently to tick
 			// Create a game of life
 			var game = new Life(div_id, grid_count, grid_size, living, tick_timer);
 			// Start 'er tickin'
-			window.setTimeout("game.tick()", game.ticktime);
+			setTimeout(function(){
+				game.tick();
+			}, game.ticktime);
 		</script>
 <script type="text/javascript">
 var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
