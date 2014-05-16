@@ -1,0 +1,6 @@
+#dots {
+  border: 1px solid black;
+}
+.dot {
+  fill-opacity: 0.5;
+}

@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Dots</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" type="text/css" media="screen" charset="utf-8">
+    <link rel="stylesheet" href="dots.css" type="text/css" media="screen" charset="utf-8">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12 page-header text-center">
+          <h1>Dots!</h1>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-8">
+          <svg id="dots"></svg>
+        </div>
+        <div class="col-md-4">
+          <form id="sliders" class="form-horizontal">
+            <div class="form-group">
+              <label for="radius">Radius: <span id="radius-count">10</span></label>
+              <input id="radius" name="radius" type="range" min="1" max="50" value="10">
+            </div>
+            <div class="form-group">
+              <label for="numDots">Number of Dots: <span id="numDots-count">1000</span></label>
+              <input id="numDots" name="numDots" type="range" min="50" max="5000" value="1000">
+            </div>
+            <div class="form-group">
+              <label for="pattern">Pattern:</label>
+              <select id="pattern" name="pattern" class="form-control">
+                <option value="horizontalRainbow">Horizontal Rainbow</option>
+                <option value="verticalRainbow">Vertical Rainbow</option>
+                <option value="randomRainbow">Random Rainbow</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Other Options:</label><br>
+              <button id="flush-dots" type="button" class="btn btn-warning">Flush Dots</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="js/d3.js"></script>
+    <script src="dots.js"></script>
+  </body>
+</html>
