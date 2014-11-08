@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Cube of Cubes</title>
+    <style>
+      body {
+          margin: 0;
+      }
+      canvas {
+          width: 100%;
+          height: 100%
+      }
+      #controls {
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 10px;
+        background-color: white;
+        border: 1px solid black;
+      }
+      .control {
+        margin-top: 10px;
+      }
+      .control:first-child {
+        margin-top: 0px;
+      }
+
+      .control label {
+        display: inline-block;
+        width: 75px;
+      }
+      .control input {
+        width: 40px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="controls">
+      <div class="control">
+        <label for="rotate-cubes">Inner cube rotation:</label>
+        <input id="rotate-cubes" name="rotate-cubes" type="number" min="0" max="1" step="0.01">
+      </div>
+      <div class="control">
+        <label for="rotate-x">X rotation:</label>
+        <input id="rotate-x" name="rotate-x" type="number" min="0" max="1" step="0.01">
+      </div>
+      <div class="control">
+        <label for="rotate-y">Y rotation:</label>
+        <input id="rotate-y" name="rotate-y" type="number" min="0" max="1" step="0.01">
+      </div>
+      <div class="control">
+        <label for="rotate-z">Z rotation:</label>
+        <input id="rotate-z" name="rotate-z" type="number" min="0" max="1" step="0.01">
+      </div>
+    </div>
+    <div id="canvas"></div>
+    <script src="three.min.r69.js"></script>
+    <script src="cubeOfCubes.js"></script>
+  </body>
+</html>
