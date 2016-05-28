@@ -47,7 +47,7 @@ function processHash() {
 	postMessage(msg);
 	// If we're supposed to keep running, let's do so
 	if (running) {
-		setTimeout(processHash, 5);
+		setTimeout(processHash, 0);
 	}
 }
 
