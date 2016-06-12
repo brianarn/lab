@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Start of a Synth</title>
+    <link rel="stylesheet" href="css/synth.css">
+  </head>
+  <body>
+
+    <div class="container">
+      <h1>Start of a Synth</h1>
+      <hr>
+      <p>
+        Press Keys to make sounds! No other UI just yet.
+        Z is C<sub>4</sub>, Comma is C<sub>5</sub>, if you know a piano keyboard you can probably extrapolate the rest. If not, um, wait for the UI.
+      </p>
+      <label for="volume-slider">Volume:</label>
+      <input id="volume-slider" type="range" min="0" max="100" value="10">
+      <span id="volume-setting"></span>
+      <br><!-- I'm a horrible person -->
+      <label for="wave-type">Wave Type:</label>
+      <select id="wave-type">
+        <option value="sine">Sine</option>
+        <option value="square">Square</option>
+        <option value="sawtooth">Sawtooth</option>
+        <option value="triangle">Triangle</option>
+      </select>
+    </div>
+
+    <script src="js/synth.js"></script>
+  </body>
+</html>
