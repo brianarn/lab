@@ -82,7 +82,7 @@ var keyMap = {
 };
 
 // This object is basically a cheap Set of oscillators.
-var keyOscillators = {};
+var keyAudioNodes = {};
 
 // We'll be using a select element to determine types
 var waveType = document.getElementById('wave-type');
@@ -96,7 +96,7 @@ document.body.addEventListener('keydown', function (e) {
 
   // Somehow this event fires rapidly, so see if we already have an oscillator,
   // and if so, we're not moving forward
-  if (keyOscillators[keyCode]) { return; }
+  if (keyAudioNodes[keyCode]) { return; }
 
   // Get the actual note value
   var note = notes[noteName];
@@ -104,24 +104,44 @@ document.body.addEventListener('keydown', function (e) {
   // May as well say something
   console.log('Starting %s (%s)', noteName, note);
 
+  // Create a gain for this note
+  var oscGain = ctx.createGain();
+  oscGain.gain.setValueAtTime(0, ctx.currentTime);
+  oscGain.gain.linearRampToValueAtTime(1, ctx.currentTime + 0.01);
+  oscGain.connect(masterGain);
+
   // Create and start the oscillator
   var osc = ctx.createOscillator();
   osc.type = waveType.value;
   osc.frequency.value = note;
-  osc.connect(masterGain);
+  osc.connect(oscGain);
   osc.start();
-  keyOscillators[keyCode] = osc;
+  keyAudioNodes[keyCode] = [oscGain, osc];
 });
 document.body.addEventListener('keyup', function (e) {
   // Look up info and see if we have an oscillator to shut down
   var keyCode = e.keyCode;
   var noteName = keyMap[keyCode];
-  var osc = keyOscillators[keyCode];
+  var nodes = keyAudioNodes[keyCode];
 
   // If we do, close it out.
-  if (osc) {
-    console.log('Stopping %s (%s)', noteName, osc.frequency.value);
-    delete keyOscillators[e.keyCode];
+  if (nodes) {
+    nodes.forEach(function (node) {
+      // Turn down the gain "slowly"
+      if (node.gain) {
+        node.gain.setValueAtTime(1, ctx.currentTime);
+        node.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.01);
+      }
+      if (node.stop) {
+        setTimeout(node.stop.bind(node), 100);
+      }
+      // Disconnect after a few ms, give it time to shut down if it's a gain node
+      if (node.disconnect) {
+        setTimeout(node.disconnect.bind(node), 100);
+      }
+    });
+    console.log('Stopping %s (%s)', noteName);
+    delete keyAudioNodes[e.keyCode];
     osc.stop();
   }
 });
